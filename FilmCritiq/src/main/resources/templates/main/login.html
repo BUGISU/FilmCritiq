@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>Please sign in</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" integrity="sha384-oOE/3m0LUMPub4kaC09mrdEhIc+e3exm4xOGxAmuFXhBNF4hcg/6MiAXAf5p0P56" crossorigin="anonymous"/>
-</head>
-<body>
-<div class="container">
-  <form class="form-signin" method="post" action="/FilmCritiq/login">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <p>
-      <label for="username" class="sr-only">Username</label>
-      <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-    </p>
-    <p>
-      <label for="password" class="sr-only">Password</label>
-      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-    </p>
-    <p><input type='checkbox' name='remember-me'/> Remember me on this computer.</p>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  </form>
-  <h2 class="form-signin-heading">Login with OAuth 2.0</h2><table class="table table-striped">
-  <tr><td><a href="/FilmCritiq/oauth2/authorization/google">Google</a></td></tr>
-</table>
-</div>
-</body></html>
+<th:block th:fragment="setContent(login)">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" integrity="sha384-oOE/3m0LUMPub4kaC09mrdEhIc+e3exm4xOGxAmuFXhBNF4hcg/6MiAXAf5p0P56" crossorigin="anonymous"/>
+  </head>
+  <body>
+  <div class="container">
+    <form class="form-signin" method="post" action="/FilmCritiq/login">
+      <h2 class="form-signin-heading text-center" style="font-weight: bold;">로그인</h2>
+      <p>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="아이디" required autofocus>
+      </p>
+      <p>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="패스워드" required>
+      </p>
+      <p class="text-center"><input type='checkbox' name='remember-me'/> 아이디 기억하기 </p>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+      <span class="text-center" style="text-decoration: underline; cursor: pointer; color: blue;" onclick="handleClick()">회원가입</span>
+    </form>
+    <div class="mt-1">
+      <p class="form-signin-heading text-center">간편 로그인</p>
+        <div style=" height:auto;" class="d-flex justify-content-center align-items-center">
+          <div id='google-login-icon-svg' style="width:30px; height:30px; cursor: pointer;"
+               onclick="document.getElementById('google-login-link').click();"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox ="0 0 488 512">
+              <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+              <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8
+            8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5
+            69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3
+            12.7 3.9 24.9 3.9 41.4z"/></svg>
+          </div>
+          <a href="/FilmCritiq/oauth2/authorization/google" id="google-login-link" style="display:none;">Google 로그인</a>
+        </div>
+      </table>
+    </div>
+  </div>
+  </body>
+</th:block>
+</html>
