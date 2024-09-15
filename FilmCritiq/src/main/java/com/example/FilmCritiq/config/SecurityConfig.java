@@ -68,9 +68,9 @@ public class SecurityConfig {
       @Override
       public void customize(FormLoginConfigurer<HttpSecurity> httpSecurityFormLoginConfigurer) {
         httpSecurityFormLoginConfigurer
-//            .loginPage("/sample/login")
-//            .loginProcessingUrl("/sample/login")
-//            .defaultSuccessUrl("/")
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .defaultSuccessUrl("/")
             .successHandler(getAuthenticationSuccessHandler())
             .failureHandler(getAuthenticationFailureHandler());
       }

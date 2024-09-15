@@ -15,7 +15,6 @@ public class AuthController {
   public void accessDenied() {
 
   }
-
   @GetMapping("/authenticationFailure")
   public void accessDeniedFailure() {
 
