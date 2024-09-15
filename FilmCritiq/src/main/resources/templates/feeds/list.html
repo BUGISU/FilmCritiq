@@ -7,11 +7,12 @@
     <header class="bg-dark py-5">
       <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-          <h1 class="display-4 fw-bolder">InstaGram Feed List</h1>
+          <h1 class="display-4 fw-bolder">FilmCritiq</h1>
           <div class="d-grid gap-2 col-6 mx-auto">
-            <a class="btn btn-outline-primary m-4 " th:href="@{/feeds/register}">Register</a>
+            <a class="btn btn-outline-primary m-4 " th:href="@{/feeds/register}">게시글 올리기</a>
           </div>
-          <div class="d-grid gap-2 col-8 mx-auto">
+          <!--검색 기능-->
+<!--          <div class="d-grid gap-2 col-8 mx-auto">
             <form th:action="@{/feeds/list}" id="frmSearch" method="get">
               <div class="input-group m-4 ">
                 <div class="input-group-prepend" style="margin-right:10px;">
@@ -25,12 +26,11 @@
                 <input type="text" class="form-control" name="keyword" style="border-radius:5px"
                        id="keyword" th:value="${pageRequestDTO.keyword}">
                 <div class="input-group-append" style="margin-left:10px;">
-                  <button class="btn btn-outline-primary btnSearch">Search</button>
+                  <button class="btn btn-outline-primary btnSearch">검색</button>
                 </div>
               </div>
             </form>
-          </div>
-          <p class="lead fw-normal text-white-50 mb-0">create by. Enney 2024-08-16</p>
+          </div>-->
         </div>
       </div>
     </header>
@@ -175,7 +175,7 @@
   </script>
   <!-- Footer-->
   <footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; create by. Enney 2024-08-16</p></div>
   </footer>
 
   </body>
