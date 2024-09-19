@@ -75,7 +75,7 @@ public class SecurityConfig {
             .failureHandler(getAuthenticationFailureHandler());
       }
     });
-    // logout() 정의 안해도 로그아웃 페이지 사용 가능. 사용자 로그아웃 페이지 지정할 때사용
+    //logout() 정의 안해도 로그아웃 페이지 사용 가능. 사용자 로그아웃 페이지 지정할 때사용
     httpSecurity.logout(new Customizer<LogoutConfigurer<HttpSecurity>>() {
       @Override
       public void customize(LogoutConfigurer<HttpSecurity> httpSecurityLogoutConfigurer) {
