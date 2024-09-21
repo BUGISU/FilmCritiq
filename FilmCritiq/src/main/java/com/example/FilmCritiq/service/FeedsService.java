@@ -32,8 +32,12 @@ public interface FeedsService {
   default Map<String, Object> dtoToEntity(FeedsDTO feedsDTO) {
     Map<String, Object> entityMap = new HashMap<>();
     Feeds feeds = Feeds.builder().fno(feedsDTO.getFno())
-        .title(feedsDTO.getTitle())
-        .content(feedsDTO.getContent()).build();
+            .title(feedsDTO.getTitle())
+            .content(feedsDTO.getContent())
+            .releaseDate(feedsDTO.getReleaseDate())
+            .screeningTime(feedsDTO.getScreeningTime())
+            .audienceAge(feedsDTO.getAudienceAge())
+            .build();
     entityMap.put("feeds", feeds);
     List<PhotosDTO> photosDTOList = feedsDTO.getPhotosDTOList();
     if (photosDTOList != null && photosDTOList.size() > 0) {
@@ -59,12 +63,15 @@ public interface FeedsService {
   default FeedsDTO entityToDto(Feeds feeds, List<Photos> photosList
       , Long reviewsCnt) {
     FeedsDTO feedsDTO = FeedsDTO.builder()
-        .fno(feeds.getFno())
-        .title(feeds.getTitle())
-        .content(feeds.getContent())
-        .regDate(feeds.getRegDate())
-        .modDate(feeds.getModDate())
-        .build();
+            .fno(feeds.getFno())
+            .title(feeds.getTitle())
+            .content(feeds.getContent())
+            .releaseDate(feeds.getReleaseDate())
+            .screeningTime(feeds.getScreeningTime())
+            .audienceAge(feeds.getAudienceAge()  )
+            .regDate(feeds.getRegDate())
+            .modDate(feeds.getModDate())
+            .build();
     List<PhotosDTO> photosDTOList = new ArrayList<>();
     if(photosList.toArray().length > 0 && photosList.toArray()[0] != null) {
       photosDTOList = photosList.stream().map(

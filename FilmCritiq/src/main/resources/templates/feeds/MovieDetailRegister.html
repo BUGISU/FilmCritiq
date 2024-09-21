@@ -12,22 +12,32 @@
 	                background-color:powderblue;
                 }
                 .detail-group-right {
-                    width: 70%;
+                    width: 68%;
 	                height: 500px;
-	                float: right;
+	                margin:10px;
+	                float: left;
+
+                }
+                .detail-group-right input{
+	                margin: 5px;
                 }
                 .uploadResult {width: 100%;margin-top:10px;}
                 .uploadResult ul {
-                  display: flex;flex-flow:row;justify-content:center;
-                  align-items:center;vertical-align:top;overflow: auto;
+                  display: flex;
+                  flex-flow:row;
+                  justify-content:center;
+                  align-items:center;
+                  vertical-align:top;
+                  overflow: auto;
+                }
+                .form-group{
+                    width:100%;
                 }
                 .uploadResult ul li {list-style:none;padding:10px;margin-left:2em;}
-                .uploadResult ul li img {width: 100px;}
+                .uploadResult ul li img {width: 300px;}
             </style>
             <form th:action="@{/feeds/register}" th:method="post" id="frmSend">
-                <div class="form-group">
 
-                </div>
                 <div class="box"></div> <!--submit 버튼을 누를 때 필요한 자료 두는 곳-->
                 <div class="detail-group">
                     <div class="detail-group-left">
@@ -35,7 +45,6 @@
                         <div class="form-group input-group mb-3">
                             <input type="file" id="fileInput" class="custom-file-input form-control files" multiple>
                             <label id="custom-label"></label>
-                            <label type="submit" id="btnSend" class="input-group-text" for="fileInput">Submit</label>
                         </div>
                         <div class="uploadResult"><!--file의 onchange 후에 보여질 섬네일 보여주는 영역-->
                             <ul></ul>
@@ -58,6 +67,9 @@
                         </div>
                         <input class="form-control" placeholder="줄거리를 입력하세요" name="content" id="content" style="height: 100px">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label type="submit" id="btnSend" class="input-group-text justify-content-center align-items-center" for="fileInput" style="width: 400px">Submit</label>
                 </div>
 
             </form>

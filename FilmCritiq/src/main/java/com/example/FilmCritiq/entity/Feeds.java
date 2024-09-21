@@ -17,6 +17,10 @@ public class Feeds extends BasicEntity{
   private String title;
   private String content;
 
+  private String releaseDate; //개봉일
+  private String screeningTime; //상영시간
+  private String audienceAge; //관람층
+
   public void changeTitle(String title) {
     this.title = title;
   }
