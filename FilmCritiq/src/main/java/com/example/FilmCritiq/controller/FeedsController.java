@@ -22,18 +22,18 @@ import java.util.List;
 
 @Controller
 @Log4j2
-@RequestMapping("/feeds")
+@RequestMapping({"/feeds"})
 @RequiredArgsConstructor
 public class FeedsController {
   private final FeedsService feedsService;
   private final ReviewsService reviewsService;
   private static final Logger logger = LoggerFactory.getLogger(FeedsController.class);
 
-  @GetMapping("/register")
+  @GetMapping({"/register","/MovieDetailRegister"})
   public void register() {
   }
 
-  @PostMapping("/register")
+  @PostMapping({"/register","/MovieDetailRegister"})
   public String registerPost(FeedsDTO feedsDTO, RedirectAttributes ra) {
     Long fno = feedsService.register(feedsDTO);
     ra.addFlashAttribute("msg", fno);
@@ -46,7 +46,7 @@ public class FeedsController {
     return "/feeds/list";
   }
 
-  @GetMapping({"/read", "/modify"})
+  @GetMapping({"/read", "/modify","/MovieDetailView"})
   public void getFeeds( Long fno, PageRequestDTO pageRequestDTO, Model model) {
     logger.info("getFeeds called with fno: {}", fno);
     FeedsDTO feedsDTO = feedsService.getFeeds(fno);

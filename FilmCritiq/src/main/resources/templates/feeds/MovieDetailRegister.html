@@ -5,7 +5,17 @@
         <div class="m-5">
             <h1 class="mt-4 text-primary fw-bold fs-2">영화 등록</h1>
             <style>
-                .form-group {margin-bottom: 30px;}
+                .detail-group-left {
+                    width: 30%;
+	                height: 500px;
+	                float: left;
+	                background-color:powderblue;
+                }
+                .detail-group-right {
+                    width: 70%;
+	                height: 500px;
+	                float: right;
+                }
                 .uploadResult {width: 100%;margin-top:10px;}
                 .uploadResult ul {
                   display: flex;flex-flow:row;justify-content:center;
@@ -16,35 +26,42 @@
             </style>
             <form th:action="@{/feeds/register}" th:method="post" id="frmSend">
                 <div class="form-group">
-                    <label for="title" class="mt-4 fw-bold fs-4">영화 제목</label>
-                    <input type="text" name="title" id="title" class="form-control"
-                           placeholder="영화 제목을 입력하세요">
-                    <div>
-                        <!--개봉일-->
-                        <input type="text" name="release-date" id="release-date" class="form-control"
-                               placeholder="개봉일을 입력하세요">
-                        <!--상영시간-->
-                        <input type="text" name="screen-time" id="screen-time" class="form-control"
-                               placeholder="상영시간을 입력하세요">
-                        <!--연령층-->
-                        <input type="text" name="viewing-age" id="viewing-age" class="form-control"
-                               placeholder="연령층을 입력하세요">
-                    </div>
-                    <input class="form-control" placeholder="줄거리를 입력하세요" name="content" id="content" style="height: 100px">
-                </div>
-                <div class="form-group">
-                    <label for="fileInput"  class="fw-bold fs-4">스틸컷 추가하기</label>
-                    <div class="form-group input-group mb-3">
-                        <input type="file" id="fileInput" class="custom-file-input form-control files" multiple>
-                        <label id="custom-label"></label>
-                        <label type="submit" id="btnSend" class="input-group-text" for="fileInput">Submit</label>
-                    </div>
+
                 </div>
                 <div class="box"></div> <!--submit 버튼을 누를 때 필요한 자료 두는 곳-->
+                <div class="detail-group">
+                    <div class="detail-group-left">
+                        <label for="fileInput"  class="fw-bold fs-4">스틸컷 추가하기</label>
+                        <div class="form-group input-group mb-3">
+                            <input type="file" id="fileInput" class="custom-file-input form-control files" multiple>
+                            <label id="custom-label"></label>
+                            <label type="submit" id="btnSend" class="input-group-text" for="fileInput">Submit</label>
+                        </div>
+                        <div class="uploadResult"><!--file의 onchange 후에 보여질 섬네일 보여주는 영역-->
+                            <ul></ul>
+                        </div>
+                    </div>
+                    <div class="detail-group-right">
+                        <label for="title" class="mt-4 fw-bold fs-4">영화 제목</label>
+                        <input type="text" name="title" id="title" class="form-control"
+                               placeholder="영화 제목을 입력하세요">
+                        <div>
+                            <!--개봉일-->
+                            <input type="text" name="release-date" id="release-date" class="form-control"
+                                   placeholder="개봉일을 입력하세요">
+                            <!--상영시간-->
+                            <input type="text" name="screen-time" id="screen-time" class="form-control"
+                                   placeholder="상영시간을 입력하세요">
+                            <!--연령층-->
+                            <input type="text" name="viewing-age" id="viewing-age" class="form-control"
+                                   placeholder="연령층을 입력하세요">
+                        </div>
+                        <input class="form-control" placeholder="줄거리를 입력하세요" name="content" id="content" style="height: 100px">
+                    </div>
+                </div>
+
             </form>
-            <div class="uploadResult"><!--file의 onchange 후에 보여질 섬네일 보여주는 영역-->
-                <ul></ul>
-            </div>
+
             <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
             <script th:inline="javascript">
                 function checkExtension(fileName, fileSize){
