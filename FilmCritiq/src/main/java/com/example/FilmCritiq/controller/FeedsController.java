@@ -1,6 +1,6 @@
 package com.example.FilmCritiq.controller;
 
-import com.example.FilmCritiq.dto.FeedsDTO;
+import com.example.FilmCritiq.dto.MoviesDTO;
 import com.example.FilmCritiq.dto.PageRequestDTO;
 import com.example.FilmCritiq.service.FeedsService;
 import com.example.FilmCritiq.service.ReviewsService;
@@ -34,8 +34,8 @@ public class FeedsController {
   }
 
   @PostMapping({"/register","/MovieDetailRegister"})
-  public String registerPost(FeedsDTO feedsDTO, RedirectAttributes ra) {
-    Long fno = feedsService.register(feedsDTO);
+  public String registerPost(MoviesDTO moviesDTO, RedirectAttributes ra) {
+    Long fno = feedsService.register(moviesDTO);
     ra.addFlashAttribute("msg", fno);
     return "redirect:/feeds/list";
   }
@@ -49,12 +49,12 @@ public class FeedsController {
   @GetMapping({"/read", "/modify","/MovieDetailView"})
   public void getFeeds( Long fno, PageRequestDTO pageRequestDTO, Model model) {
     logger.info("getFeeds called with fno: {}", fno);
-    FeedsDTO feedsDTO = feedsService.getFeeds(fno);
+    MoviesDTO moviesDTO = feedsService.getFeeds(fno);
     typeKeywordInit(pageRequestDTO);
-    model.addAttribute("feedsDTO", feedsDTO);
+    model.addAttribute("feedsDTO", moviesDTO);
   }
   @PostMapping("/modify")
-  public String modify(FeedsDTO dto, RedirectAttributes ra, PageRequestDTO pageRequestDTO){
+  public String modify(MoviesDTO dto, RedirectAttributes ra, PageRequestDTO pageRequestDTO){
     log.info("modify post... dto: " + dto);
     feedsService.modify(dto);
     typeKeywordInit(pageRequestDTO);

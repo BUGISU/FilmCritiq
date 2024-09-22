@@ -14,7 +14,7 @@ public class Reviews extends BasicEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long reviewsnum;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Feeds feeds;
+  private Movies movies;
   @ManyToOne(fetch = FetchType.LAZY)
   private ClubMember clubMember;
   private String text; //한줄평

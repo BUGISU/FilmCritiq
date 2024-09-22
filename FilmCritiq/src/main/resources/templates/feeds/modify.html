@@ -14,32 +14,32 @@
     </style>
     <div class="m-5">
     <h1 class="mt-4 text-primary fw-bold fs-2">Feeds Modify Page</h1>
-    <form th:action="@{/feeds/modify}" th:method="post" id="frmSend">
+    <form th:action="@{/movies/modify}" th:method="post" id="frmSend">
       <div class="form-group">
         <label class=" fw-bold fs-4">FNO</label>
-        <input type="text" th:value="${feedsDTO.fno}" name="fno" class="form-control" readonly>
+        <input type="text" th:value="${moviesDTO.fno}" name="fno" class="form-control" readonly>
       </div>
       <div class="form-group">
         <label class=" fw-bold fs-4">Title</label>
-        <input type="text" name="title" th:value="${feedsDTO.title}" class="form-control">
+        <input type="text" name="title" th:value="${moviesDTO.title}" class="form-control">
       </div>
       <div class="form-group">
         <label for="content" class="mt-4 fw-bold fs-4">Content</label>
-        <input class="form-control" th:value="${feedsDTO.content}" name="content" id="content" style="height: 100px">
+        <input class="form-control" th:value="${moviesDTO.content}" name="content" id="content" style="height: 100px">
       </div>
       <div style="margin-bottom: 30px;">
         <label class=" fw-bold fs-4">Review Count</label>
-        <input type="text" name="reviewsCnt" class="form-control" readonly th:value="${feedsDTO.reviewsCnt}">
+        <input type="text" name="reviewsCnt" class="form-control" readonly th:value="${moviesDTO.reviewsCnt}">
       </div>
       <div class="form-group">
         <label class=" fw-bold fs-4">RegDate</label>
         <input type="text" class="form-control"
-               th:value="${#temporals.format(feedsDTO.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+               th:value="${#temporals.format(moviesDTO.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
       </div>
       <div class="form-group">
         <label class=" fw-bold fs-4">ModDate</label>
         <input type="text" class="form-control"
-               th:value="${#temporals.format(feedsDTO.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+               th:value="${#temporals.format(moviesDTO.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
       </div>
       <div class="form-group">
         <label for="fileInput" class=" fw-bold fs-4">Select Image Files</label>
@@ -59,7 +59,7 @@
     </form>
     <div class="uploadResult">
       <ul>
-        <li th:each="photosDTO : ${feedsDTO.photosDTOList}"
+        <li th:each="photosDTO : ${moviesDTO.photosDTOList}"
             th:data-path='${photosDTO.path}'
             th:data-uuid='${photosDTO.uuid}'
             th:data-file='${photosDTO.getImageURL}'
@@ -193,7 +193,7 @@
       }
       btnDele.onclick = e => {
         e.preventDefault()
-        frmSend.setAttribute('action', /*[[@{/feeds/remove}]]*/'remove')
+        frmSend.setAttribute('action', /*[[@{/movies/remove}]]*/'remove')
         frmSend.submit();
       }
       btnBack.onclick = e => {

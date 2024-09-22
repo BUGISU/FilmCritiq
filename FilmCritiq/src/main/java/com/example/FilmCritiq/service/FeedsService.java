@@ -1,10 +1,10 @@
 package com.example.FilmCritiq.service;
 
-import com.example.FilmCritiq.dto.FeedsDTO;
+import com.example.FilmCritiq.dto.MoviesDTO;
 import com.example.FilmCritiq.dto.PageRequestDTO;
 import com.example.FilmCritiq.dto.PageResultDTO;
 import com.example.FilmCritiq.dto.PhotosDTO;
-import com.example.FilmCritiq.entity.Feeds;
+import com.example.FilmCritiq.entity.Movies;
 import com.example.FilmCritiq.entity.Photos;
 
 import java.util.ArrayList;
@@ -15,31 +15,31 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public interface FeedsService {
-  Long register(FeedsDTO feedsDTO);
+  Long register(MoviesDTO moviesDTO);
 
-  PageResultDTO<FeedsDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
+  PageResultDTO<MoviesDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
-  FeedsDTO getFeeds(Long fno);
+  MoviesDTO getFeeds(Long fno);
 
 
-  void modify(FeedsDTO feedsDTO);
+  void modify(MoviesDTO moviesDTO);
 
   List<String> removeWithReviewsAndPhotos(Long fno);
 
   void removeUuid(String uuid);
 
 
-  default Map<String, Object> dtoToEntity(FeedsDTO feedsDTO) {
+  default Map<String, Object> dtoToEntity(MoviesDTO moviesDTO) {
     Map<String, Object> entityMap = new HashMap<>();
-    Feeds feeds = Feeds.builder().fno(feedsDTO.getFno())
-            .title(feedsDTO.getTitle())
-            .content(feedsDTO.getContent())
-            .releaseDate(feedsDTO.getReleaseDate())
-            .screeningTime(feedsDTO.getScreeningTime())
-            .audienceAge(feedsDTO.getAudienceAge())
+    Movies movies = Movies.builder().fno(moviesDTO.getFno())
+            .title(moviesDTO.getTitle())
+            .content(moviesDTO.getContent())
+            .releaseDate(moviesDTO.getReleaseDate())
+            .screeningTime(moviesDTO.getScreeningTime())
+            .audienceAge(moviesDTO.getAudienceAge())
             .build();
-    entityMap.put("feeds", feeds);
-    List<PhotosDTO> photosDTOList = feedsDTO.getPhotosDTOList();
+    entityMap.put("feeds", movies);
+    List<PhotosDTO> photosDTOList = moviesDTO.getPhotosDTOList();
     if (photosDTOList != null && photosDTOList.size() > 0) {
       List<Photos> photosList = photosDTOList.stream().map(
           new Function<PhotosDTO, Photos>() {
@@ -49,7 +49,7 @@ public interface FeedsService {
                   .path(photosDTO.getPath())
                   .imgName(photosDTO.getImgName())
                   .uuid(photosDTO.getUuid())
-                  .feeds(feeds)
+                  .movies(movies)
                   .build();
               return photos;
             }
@@ -60,17 +60,17 @@ public interface FeedsService {
     return entityMap;
   }
 
-  default FeedsDTO entityToDto(Feeds feeds, List<Photos> photosList
+  default MoviesDTO entityToDto(Movies movies, List<Photos> photosList
       , Long reviewsCnt) {
-    FeedsDTO feedsDTO = FeedsDTO.builder()
-            .fno(feeds.getFno())
-            .title(feeds.getTitle())
-            .content(feeds.getContent())
-            .releaseDate(feeds.getReleaseDate())
-            .screeningTime(feeds.getScreeningTime())
-            .audienceAge(feeds.getAudienceAge()  )
-            .regDate(feeds.getRegDate())
-            .modDate(feeds.getModDate())
+    MoviesDTO moviesDTO = MoviesDTO.builder()
+            .fno(movies.getFno())
+            .title(movies.getTitle())
+            .content(movies.getContent())
+            .releaseDate(movies.getReleaseDate())
+            .screeningTime(movies.getScreeningTime())
+            .audienceAge(movies.getAudienceAge()  )
+            .regDate(movies.getRegDate())
+            .modDate(movies.getModDate())
             .build();
     List<PhotosDTO> photosDTOList = new ArrayList<>();
     if(photosList.toArray().length > 0 && photosList.toArray()[0] != null) {
@@ -85,8 +85,8 @@ public interface FeedsService {
           }
       ).collect(Collectors.toList());
     }
-    feedsDTO.setPhotosDTOList(photosDTOList);
-    feedsDTO.setReviewsCnt(reviewsCnt);
-    return feedsDTO;
+    moviesDTO.setPhotosDTOList(photosDTOList);
+    moviesDTO.setReviewsCnt(reviewsCnt);
+    return moviesDTO;
   }
 }

@@ -1,7 +1,7 @@
 package com.example.FilmCritiq.repository;
 
 import com.example.FilmCritiq.entity.ClubMember;
-import com.example.FilmCritiq.entity.Feeds;
+import com.example.FilmCritiq.entity.Movies;
 import com.example.FilmCritiq.entity.Reviews;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ class ReviewsRepositoryTests {
             Long cno = (long) (Math.random() * 100) + 1;
             Reviews review = Reviews.builder()
                     .clubMember(ClubMember.builder().cno(cno).build())
-                    .feeds(Feeds.builder().fno(fno).build())
+                    .movies(Movies.builder().fno(fno).build())
                     .text("이 피드는.....")
                     .build();
             reviewsRepository.save(review);
@@ -36,7 +36,7 @@ class ReviewsRepositoryTests {
     @Test
     public void testFindByFeeds() {
         List<Reviews> result = reviewsRepository.findByFeeds(
-                Feeds.builder().fno(100L).build()
+                Movies.builder().fno(100L).build()
         );
         result.forEach(review -> {
             System.out.println(review.getReviewsnum());

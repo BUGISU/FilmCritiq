@@ -9,11 +9,11 @@
         <div class="text-center text-white">
           <h1 class="display-4 fw-bolder">FilmCritiq</h1>
           <div class="d-grid gap-2 col-6 mx-auto">
-            <a class="btn btn-outline-primary m-4 " th:href="@{/feeds/MovieDetailRegister}">게시글 올리기</a>
+            <a class="btn btn-outline-primary m-4 " th:href="@{/movies/MovieDetailRegister}">게시글 올리기</a>
           </div>
           <!--검색 기능-->
 <!--          <div class="d-grid gap-2 col-8 mx-auto">
-            <form th:action="@{/feeds/list}" id="frmSearch" method="get">
+            <form th:action="@{/movies/list}" id="frmSearch" method="get">
               <div class="input-group m-4 ">
                 <div class="input-group-prepend" style="margin-right:10px;">
                   <select class="form-control" id="type" name="type">
@@ -40,28 +40,28 @@
     <div class="container px-4 px-lg-5 mt-5">
       <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
         <!--1 번-->
-        <div class="col mb-5"  th:each="feedsDTO : ${pageResultDTO.dtoList}"
-             th:onclick="goRead([[${feedsDTO.fno}]],[[${pageResultDTO.page}]],[[${pageRequestDTO.type}]], [[${pageRequestDTO.keyword}]])"
+        <div class="col mb-5"  th:each="moviesDTO : ${pageResultDTO.dtoList}"
+             th:onclick="goRead([[${moviesDTO.fno}]],[[${pageResultDTO.page}]],[[${pageRequestDTO.type}]], [[${pageRequestDTO.keyword}]])"
              style="cursor:pointer;">
           <div class="card h-100">
             <!-- Product image-->
 <!--            <div>-->
 <!--              &lt;!&ndash; 조건 확인 &ndash;&gt;-->
-<!--              <p th:text="'Size: ' + ${feedsDTO.photosDTOList.size()}"></p>-->
-<!--              <p th:if="${!feedsDTO.photosDTOList.isEmpty()}"-->
-<!--                 th:text="'Path: ' + ${feedsDTO.photosDTOList[0].path}"></p>-->
-<!--              <p th:if="${!feedsDTO.photosDTOList.isEmpty()}"-->
-<!--                 th:text="'Thumbnail URL: ' + ${feedsDTO.photosDTOList[0].getThumbnailURL()}"></p>-->
+<!--              <p th:text="'Size: ' + ${moviesDTO.photosDTOList.size()}"></p>-->
+<!--              <p th:if="${!moviesDTO.photosDTOList.isEmpty()}"-->
+<!--                 th:text="'Path: ' + ${moviesDTO.photosDTOList[0].path}"></p>-->
+<!--              <p th:if="${!moviesDTO.photosDTOList.isEmpty()}"-->
+<!--                 th:text="'Thumbnail URL: ' + ${moviesDTO.photosDTOList[0].getThumbnailURL()}"></p>-->
 <!--            </div>-->
             <!-- 피드 이미지가 있을 때만 표시되는 이미지 -->
-            <img th:if="${feedsDTO.photosDTOList.size() > 0 && feedsDTO.photosDTOList[0].path != null}"
-                 th:src="|@{/display(fileName=${feedsDTO.photosDTOList[0].getThumbnailURL()})}|"
+            <img th:if="${moviesDTO.photosDTOList.size() > 0 && moviesDTO.photosDTOList[0].path != null}"
+                 th:src="|@{/display(fileName=${moviesDTO.photosDTOList[0].getThumbnailURL()})}|"
                  class="card-img-top"
                  alt="Feed Image"
                  style="width: 100%; height:200px; object-fit: cover;"/>
 
 <!--            &lt;!&ndash; 기본 이미지: 피드 이미지가 없거나 유효하지 않을 때 표시 &ndash;&gt;-->
-            <img th:unless="${feedsDTO.photosDTOList.size() > 0 && feedsDTO.photosDTOList[0].path != null}"
+            <img th:unless="${moviesDTO.photosDTOList.size() > 0 && moviesDTO.photosDTOList[0].path != null}"
                  src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
                  class="card-img-top"
                  alt="Default Image"  style="width: 100%; height:200px;object-fit: cover;" />
@@ -70,16 +70,16 @@
             <div class="card-body p-4">
               <div class="text-center">
                 <!-- Product name-->
-                <h5 class="fw-bolder" th:text="${feedsDTO != null} ? ${feedsDTO.title} : '제목이 없습니다'"></h5>
+                <h5 class="fw-bolder" th:text="${moviesDTO != null} ? ${moviesDTO.title} : '제목이 없습니다'"></h5>
                 <!-- Product price-->
-                <p th:text="${feedsDTO != null} ? ${feedsDTO.content} : '내용이 없습니다'"></p>
+                <p th:text="${moviesDTO != null} ? ${moviesDTO.content} : '내용이 없습니다'"></p>
               </div>
             </div>
             <!-- Product actions-->
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
               <div class="text-center">
                 <a class="btn btn-outline-dark mt-auto"
-                   th:onclick="goRead([[${feedsDTO.fno}]],[[${pageResultDTO.page}]],
+                   th:onclick="goRead([[${moviesDTO.fno}]],[[${pageResultDTO.page}]],
                       [[${pageRequestDTO.type}]], [[${pageRequestDTO.keyword}]])">게시글 보기</a>
               </div>
             </div>
@@ -91,16 +91,16 @@
     <ul class="pagination h-100 justify-content-center align-items-center">
       <li class="page-item " th:if="${pageResultDTO.prev}">
         <a class="page-link" tabindex="-1"
-           th:href="@{/feeds/list(page=${pageResultDTO.start-1})}">Prev</a>
+           th:href="@{/movies/list(page=${pageResultDTO.start-1})}">Prev</a>
       </li>
       <li th:each="page : ${pageResultDTO.pageList}"
           th:class=" 'page-item ' + ${pageResultDTO.page == page?'active':''} ">
         <a class="page-link"
-           th:href="@{/feeds/list(page=${page},type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
+           th:href="@{/movies/list(page=${page},type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
       </li>
       <li class="page-item " th:if="${pageResultDTO.next}">
         <a class="page-link"
-           th:href="@{/feeds/list(page=${pageResultDTO.end+1})}">Next</a>
+           th:href="@{/movies/list(page=${pageResultDTO.end+1})}">Next</a>
       </li>
     </ul>
     <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -138,7 +138,7 @@
             }
             type.onchange = () => {
               if(type.options[0].selected) {
-                location.href = /*[[@{/feeds/list}]]*/'url'
+                location.href = /*[[@{/movies/list}]]*/'url'
               } else {
                 keyword.disabled = false;
                 btnSearch.disabled = false;
@@ -169,7 +169,7 @@
             console.log('page:', page);
             console.log('type:', type);
             console.log('keyword:', keyword);
-            url = /*[[@{/feeds/read}]]*/'url'
+            url = /*[[@{/movies/read}]]*/'url'
             location.href = url + `?fno=${fno}&page=${page}&type=${type}&keyword=${keyword}`
           }
   </script>

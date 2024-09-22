@@ -1,12 +1,12 @@
 package com.example.FilmCritiq.service;
 
+import com.example.FilmCritiq.dto.MoviesDTO;
+import com.example.FilmCritiq.entity.Movies;
 import com.example.FilmCritiq.repository.FeedsRepository;
 import com.example.FilmCritiq.repository.PhotosRepository;
 import com.example.FilmCritiq.repository.ReviewsRepository;
-import com.example.FilmCritiq.dto.FeedsDTO;
 import com.example.FilmCritiq.dto.PageRequestDTO;
 import com.example.FilmCritiq.dto.PageResultDTO;
-import com.example.FilmCritiq.entity.Feeds;
 import com.example.FilmCritiq.entity.Photos;
 
 import jakarta.transaction.Transactional;
@@ -37,12 +37,12 @@ public class FeedsServiceImpl implements FeedsService {
   private static final Logger logger = LoggerFactory.getLogger(FeedsServiceImpl.class);
 
   @Override
-  public Long register(FeedsDTO feedsDTO) {
-    Map<String, Object> entityMap = dtoToEntity(feedsDTO);
-    Feeds feeds = (Feeds) entityMap.get("feeds");
+  public Long register(MoviesDTO moviesDTO) {
+    Map<String, Object> entityMap = dtoToEntity(moviesDTO);
+    Movies movies = (Movies) entityMap.get("feeds");
     List<Photos> photosList =
         (List<Photos>) entityMap.get("photosList");
-    feedsRepository.save(feeds);
+    feedsRepository.save(movies);
     log.info(">>> photosList: " + photosList);
     if(photosList != null) {
       photosList.forEach(new Consumer<Photos>() {
@@ -52,19 +52,19 @@ public class FeedsServiceImpl implements FeedsService {
         }
       });
     }
-    return feeds.getFno();
+    return movies.getFno();
   }
 
   @Override
-  public PageResultDTO<FeedsDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
+  public PageResultDTO<MoviesDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
     Pageable pageable = pageRequestDTO.getPageable(Sort.by("fno").descending());
     // Page<Movie> result = movieRepository.findAll(pageable);
 //    Page<Object[]> result = movieRepository.getListPageImg(pageable);
     Page<Object[]> result = feedsRepository.searchPage(pageRequestDTO.getType(),
         pageRequestDTO.getKeyword(),
         pageable);
-    Function<Object[], FeedsDTO> fn = objects -> entityToDto(
-        (Feeds) objects[0],
+    Function<Object[], MoviesDTO> fn = objects -> entityToDto(
+        (Movies) objects[0],
         (List<Photos>) (Arrays.asList((Photos)objects[1])),
         (Long) objects[2]
     );
@@ -73,15 +73,15 @@ public class FeedsServiceImpl implements FeedsService {
   }
 
   @Override
-  public FeedsDTO getFeeds(Long fno) {
+  public MoviesDTO getFeeds(Long fno) {
     logger.info("getFeeds called with fno: {}", fno);
     List<Object[]> result = feedsRepository.getFeedsWithAll(fno);
-    Feeds feeds = (Feeds) result.get(0)[0];
+    Movies movies = (Movies) result.get(0)[0];
     List<Photos> photos = new ArrayList<>();
     result.forEach(objects -> photos.add((Photos) objects[1]));
     Long reviewsCnt = (Long) result.get(0)[2];
     log.info(">>photos size :: " + photos.size());
-    return entityToDto(feeds, photos, reviewsCnt);
+    return entityToDto(movies, photos, reviewsCnt);
   }
 
   @Value("${com.example.upload.path}")
@@ -89,21 +89,21 @@ public class FeedsServiceImpl implements FeedsService {
 
   @Transactional
   @Override
-  public void modify(FeedsDTO feedsDTO) {
-    Optional<Feeds> result = feedsRepository.findById(feedsDTO.getFno());
+  public void modify(MoviesDTO moviesDTO) {
+    Optional<Movies> result = feedsRepository.findById(moviesDTO.getFno());
     if (result.isPresent()) {
-      Map<String, Object> entityMap = dtoToEntity(feedsDTO);
-      Feeds feeds = (Feeds) entityMap.get("feeds");
-      feeds.changeTitle(feedsDTO.getTitle());
-      feedsRepository.save(feeds);
+      Map<String, Object> entityMap = dtoToEntity(moviesDTO);
+      Movies movies = (Movies) entityMap.get("feeds");
+      movies.changeTitle(moviesDTO.getTitle());
+      feedsRepository.save(movies);
       // photosList :: 수정창에서 이미지 수정할 게 있는 경우의 목록
       List<Photos> newPhotosList =
           (List<Photos>) entityMap.get("photosList");
       List<Photos> oldPhotosList =
-          photosRepository.findByFno(feeds.getFno());
+          photosRepository.findByFno(movies.getFno());
       if(newPhotosList == null) {
         // 수정창에서 이미지 모두를 지웠을 때
-        photosRepository.deleteByFno(feeds.getFno());
+        photosRepository.deleteByFno(movies.getFno());
         for (int i = 0; i < oldPhotosList.size(); i++) {
           Photos oldPhotos = oldPhotosList.get(i);
           String fileName = oldPhotos.getPath() + File.separator

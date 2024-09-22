@@ -1,9 +1,7 @@
 package com.example.FilmCritiq.repository;
 
-import com.example.FilmCritiq.entity.Feeds;
+import com.example.FilmCritiq.entity.Movies;
 import com.example.FilmCritiq.entity.Photos;
-import com.example.FilmCritiq.repository.FeedsRepository;
-import com.example.FilmCritiq.repository.PhotosRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,7 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 
 @SpringBootTest
-class FeedsRepositoryTests {
+class MoviesRepositoryTests {
     @Autowired
     FeedsRepository feedsRepository;
 
@@ -32,16 +30,16 @@ class FeedsRepositoryTests {
     @Test
     public void insertFeeds() {
         IntStream.rangeClosed(1, 100).forEach(i -> {
-            Feeds feeds = Feeds.builder().title("Feeds..." + i)
+            Movies movies = Movies.builder().title("Feeds..." + i)
                 .content("Content..." + i)
                 .build();
-            feedsRepository.save(feeds);
+            feedsRepository.save(movies);
             System.out.println("----------------------------");
             int cnt = (int) (Math.random() * 5) + 1;
             for (int j = 0; j < cnt; j++) {
                 Photos photos = Photos.builder()
                         .uuid(UUID.randomUUID().toString())
-                        .feeds(feeds)
+                        .movies(movies)
                         .imgName("Photos" + j + ".jpg")
                         .build();
                 photosRepository.save(photos);

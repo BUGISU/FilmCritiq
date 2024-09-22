@@ -56,48 +56,48 @@
 <th:block th:replace="~{/main/basic :: setContent(~{this::content})}">
     <th:block th:fragment="content">
         <div class="m-5">
-            <form th:action="@{/feeds/modify}" th:method="post" id="frmSend">
+            <form th:action="@{/movies/modify}" th:method="post" id="frmSend">
 <!--                <div class="form-group">-->
 <!--                    <label for="fno" class=" fw-bold fs-4">FNO</label>-->
-<!--                    <input type="text" name="fno" id="fno" class="form-control" th:value="${feedsDTO.fno}" readonly>-->
+<!--                    <input type="text" name="fno" id="fno" class="form-control" th:value="${moviesDTO.fno}" readonly>-->
 <!--                </div>-->
                 <div class="form-group">
 <!--                <label for="title" class=" fw-bold fs-4">Title</label>-->
-                    <input type="text" name="title" id="title" class="form-control" th:value="${feedsDTO.title}" readonly>
+                    <input type="text" name="title" id="title" class="form-control" th:value="${moviesDTO.title}" readonly>
                 </div>
                 <div class="form-group">
                     <label for="content" class="mt-4 fw-bold fs-4">Content</label>
-                    <input class="form-control" th:value="${feedsDTO.content}" name="content" id="content" style="height: 100px"
+                    <input class="form-control" th:value="${moviesDTO.content}" name="content" id="content" style="height: 100px"
                            readonly>
                 </div>
                 <div class="form-group">
                     <label for="reviewsCnt" class=" fw-bold fs-4">Review Count</label>
-                    <input type="text" name="reviewsCnt" id="reviewsCnt" class="form-control" th:value="${feedsDTO.reviewsCnt}"
+                    <input type="text" name="reviewsCnt" id="reviewsCnt" class="form-control" th:value="${moviesDTO.reviewsCnt}"
                            readonly></input>
                 </div>
                 <div class="form-group">
                     <label for="regDate" class=" fw-bold fs-4">RegDate</label>
                     <input type="text" name="regDate" id="regDate" class="form-control" readonly
-                           th:value="${#temporals.format(feedsDTO.regDate, 'yyyy/MM/dd hh:mm')}">
+                           th:value="${#temporals.format(moviesDTO.regDate, 'yyyy/MM/dd hh:mm')}">
                 </div>
                 <div class="form-group">
                     <label for="modDate" class=" fw-bold fs-4">ModDate</label>
                     <input type="text" name="modDate" id="modDate" class="form-control" readonly
-                           th:value="${#temporals.format(feedsDTO.modDate, 'yyyy/MM/dd hh:mm')}">
+                           th:value="${#temporals.format(moviesDTO.modDate, 'yyyy/MM/dd hh:mm')}">
                 </div>
                 <div class="uploadResult">
                     <ul>
-                        <li th:each="photosDTO : ${feedsDTO.photosDTOList}" th:data-file="${photosDTO.getThumbnailURL}"
+                        <li th:each="photosDTO : ${moviesDTO.photosDTOList}" th:data-file="${photosDTO.getThumbnailURL}"
                             style="cursor:pointer;">
                             <img th:if="${photosDTO.path != null}" th:src="|@{/display(fileName=${photosDTO.getThumbnailURL})}|">
                         </li>
                     </ul>
                 </div>
                 <div class="form-group">
-                    <a th:href="@{/feeds/modify(fno=${feedsDTO.fno},
+                    <a th:href="@{/movies/modify(fno=${moviesDTO.fno},
                       page=${pageRequestDTO.page},type=${pageRequestDTO.type},
                       keyword=${pageRequestDTO.keyword})}" class="btn btn-primary">Modify</a>
-                    <a th:href="@{/feeds/list(page=${pageRequestDTO.page},
+                    <a th:href="@{/movies/list(page=${pageRequestDTO.page},
                       type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}" class="btn btn-info">List</a>
                 </div>
             </form>
@@ -109,7 +109,7 @@
                         <span>리 뷰</span>
                         <span class="btn btn-outline-secondary addReview">Add Review</span>
                         <span style="font-size:9pt">Review :
-              <span id="revCnt" th:text="${feedsDTO.reviewsCnt}"></span> 개
+              <span id="revCnt" th:text="${moviesDTO.reviewsCnt}"></span> 개
             </span>
                     </h5>
                 </div>
@@ -134,7 +134,7 @@
             <script th:inline="javascript">
                 ///////////////// window.onload : document의 태그를 모두 읽고 난뒤 실행되는 함수  /////////////////
                 window.onload = function () {
-                  var fno = [[${ feedsDTO.fno }]]
+                  var fno = [[${ moviesDTO.fno }]]
                   loadReviewJSON();
 
                   const uploadResultUlLis = document.querySelectorAll(".uploadResult ul li");

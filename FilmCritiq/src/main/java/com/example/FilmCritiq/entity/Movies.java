@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Feeds extends BasicEntity{
+public class Movies extends BasicEntity{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long fno;

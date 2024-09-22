@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeedsDTO {
+public class MoviesDTO {
   private Long fno; //pst 번호
   private Long  cno; //작성자 번호
 
