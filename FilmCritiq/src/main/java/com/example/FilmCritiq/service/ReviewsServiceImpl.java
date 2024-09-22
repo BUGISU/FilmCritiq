@@ -20,9 +20,9 @@ public class ReviewsServiceImpl implements ReviewsService {
   private final ReviewsRepository reviewsRepository;
 
   @Override
-  public List<ReviewsDTO> getListOfFeeds(Long fno) {
-    List<Reviews> result = reviewsRepository.findByFeeds(
-        Movies.builder().fno(fno).build());
+  public List<ReviewsDTO> getListOfMovies(Long mno) {
+    List<Reviews> result = reviewsRepository.findByMovies(
+        Movies.builder().mno(mno).build());
     return result.stream().map(reviews -> entityToDto(reviews)).collect(Collectors.toList());
   }
 

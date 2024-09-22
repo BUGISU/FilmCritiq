@@ -12,7 +12,7 @@ import lombok.*;
 public class Movies extends BasicEntity{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long fno;
+  private Long mno;
   private Long cno;
   private String title;
   private String content;

@@ -1,7 +1,8 @@
 package com.example.FilmCritiq.repository.search;
 import com.example.FilmCritiq.entity.Movies;
 
-import com.example.FilmCritiq.entity.QFeeds;
+import com.example.FilmCritiq.entity.QMovies;
+import com.example.FilmCritiq.entity.QMovies;
 import com.example.FilmCritiq.entity.QPhotos;
 import com.example.FilmCritiq.entity.QReviews;
 import com.querydsl.core.BooleanBuilder;
@@ -32,21 +33,21 @@ public class SearchRepositoryImpl extends QuerydslRepositorySupport
   public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
     log.info("searchPage...............");
     //1) q도메인을 확보
-    QFeeds feeds = QFeeds.feeds;
+    QMovies movies = QMovies.movies;
     QPhotos photos = QPhotos.photos;
     QReviews reviews = QReviews.reviews;
 
     //2) q도메인을 조인
-    JPQLQuery<Movies> jpqlQuery = from(feeds);
-    jpqlQuery.leftJoin(photos).on(photos.feeds.eq(feeds));
-    jpqlQuery.leftJoin(reviews).on(reviews.feeds.eq(feeds));
+    JPQLQuery<Movies> jpqlQuery = from(movies);
+    jpqlQuery.leftJoin(photos).on(photos.movies.eq(movies));
+    jpqlQuery.leftJoin(reviews).on(reviews.movies.eq(movies));
 
     //3) Tuple생성 : 조인을 한 결과의 데이터를 tuple로 생성
-    JPQLQuery<Tuple> tuple = jpqlQuery.select(feeds, photos,reviews.count());
+    JPQLQuery<Tuple> tuple = jpqlQuery.select(movies, photos,reviews.count());
 
     //4) 조건절 생성
     BooleanBuilder booleanBuilder = new BooleanBuilder();
-    BooleanExpression expression = feeds.fno.gt(0L);
+    BooleanExpression expression = movies.mno.gt(0L);
     booleanBuilder.and(expression);
 
     //5) 검색조건 파악
@@ -56,7 +57,7 @@ public class SearchRepositoryImpl extends QuerydslRepositorySupport
       for (String t : typeArr) {
         switch (t) {
           case "t":
-            conditionBuilder.or(feeds.title.contains(keyword)); break;
+            conditionBuilder.or(movies.title.contains(keyword)); break;
           case "w":
             conditionBuilder.or(reviews.clubMember.email.contains(keyword)); break;
           case "c":
@@ -74,12 +75,12 @@ public class SearchRepositoryImpl extends QuerydslRepositorySupport
     sort.stream().forEach(order -> {
       Order direction = order.isAscending() ? Order.ASC : Order.DESC;
       String prop = order.getProperty();
-      PathBuilder orderByExpression = new PathBuilder(Movies.class, "feeds");
+      PathBuilder orderByExpression = new PathBuilder(Movies.class, "movies");
       tuple.orderBy(new OrderSpecifier<Comparable>(direction, orderByExpression.get(prop)));
     });
 
     //8) 데이터를 출력하기 위한 그룹을 생성
-    tuple.groupBy(feeds);
+    tuple.groupBy(movies);
 
     //9) 원하는 데이터를 들고오기 위해서 시작위치즉 offset을 지정
     tuple.offset(pageable.getOffset());

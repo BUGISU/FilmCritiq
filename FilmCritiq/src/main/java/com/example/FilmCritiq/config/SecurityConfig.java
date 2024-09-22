@@ -53,7 +53,7 @@ public class SecurityConfig {
     httpSecurity.authorizeHttpRequests(
         auth -> auth
             .requestMatchers(AUTH_WHITElIST).permitAll()
-            //.requestMatchers("/feeds/list").permitAll()
+            //.requestMatchers("/movies/list").permitAll()
             .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
             .requestMatchers(new AntPathRequestMatcher("/error/**")).permitAll()
             .requestMatchers("/main/admin/**").hasRole("ADMIN")

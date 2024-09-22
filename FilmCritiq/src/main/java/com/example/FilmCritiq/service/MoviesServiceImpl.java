@@ -2,7 +2,7 @@ package com.example.FilmCritiq.service;
 
 import com.example.FilmCritiq.dto.MoviesDTO;
 import com.example.FilmCritiq.entity.Movies;
-import com.example.FilmCritiq.repository.FeedsRepository;
+import com.example.FilmCritiq.repository.MoviesRepository;
 import com.example.FilmCritiq.repository.PhotosRepository;
 import com.example.FilmCritiq.repository.ReviewsRepository;
 import com.example.FilmCritiq.dto.PageRequestDTO;
@@ -29,20 +29,20 @@ import java.util.function.Function;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class FeedsServiceImpl implements FeedsService {
+public class MoviesServiceImpl implements MoviesService {
 
-  private final FeedsRepository feedsRepository;
+  private final MoviesRepository moviesRepository;
   private final PhotosRepository photosRepository;
   private final ReviewsRepository reviewsRepository;
-  private static final Logger logger = LoggerFactory.getLogger(FeedsServiceImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(MoviesServiceImpl.class);
 
   @Override
   public Long register(MoviesDTO moviesDTO) {
     Map<String, Object> entityMap = dtoToEntity(moviesDTO);
-    Movies movies = (Movies) entityMap.get("feeds");
+    Movies movies = (Movies) entityMap.get("movies");
     List<Photos> photosList =
         (List<Photos>) entityMap.get("photosList");
-    feedsRepository.save(movies);
+    moviesRepository.save(movies);
     log.info(">>> photosList: " + photosList);
     if(photosList != null) {
       photosList.forEach(new Consumer<Photos>() {
@@ -52,15 +52,15 @@ public class FeedsServiceImpl implements FeedsService {
         }
       });
     }
-    return movies.getFno();
+    return movies.getMno();
   }
 
   @Override
   public PageResultDTO<MoviesDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
-    Pageable pageable = pageRequestDTO.getPageable(Sort.by("fno").descending());
+    Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
     // Page<Movie> result = movieRepository.findAll(pageable);
 //    Page<Object[]> result = movieRepository.getListPageImg(pageable);
-    Page<Object[]> result = feedsRepository.searchPage(pageRequestDTO.getType(),
+    Page<Object[]> result = moviesRepository.searchPage(pageRequestDTO.getType(),
         pageRequestDTO.getKeyword(),
         pageable);
     Function<Object[], MoviesDTO> fn = objects -> entityToDto(
@@ -73,9 +73,9 @@ public class FeedsServiceImpl implements FeedsService {
   }
 
   @Override
-  public MoviesDTO getFeeds(Long fno) {
-    logger.info("getFeeds called with fno: {}", fno);
-    List<Object[]> result = feedsRepository.getFeedsWithAll(fno);
+  public MoviesDTO getMovies(Long mno) {
+    logger.info("getMovies called with mno: {}", mno);
+    List<Object[]> result = moviesRepository.getMoviesWithAll(mno);
     Movies movies = (Movies) result.get(0)[0];
     List<Photos> photos = new ArrayList<>();
     result.forEach(objects -> photos.add((Photos) objects[1]));
@@ -90,20 +90,20 @@ public class FeedsServiceImpl implements FeedsService {
   @Transactional
   @Override
   public void modify(MoviesDTO moviesDTO) {
-    Optional<Movies> result = feedsRepository.findById(moviesDTO.getFno());
+    Optional<Movies> result = moviesRepository.findById(moviesDTO.getMno());
     if (result.isPresent()) {
       Map<String, Object> entityMap = dtoToEntity(moviesDTO);
-      Movies movies = (Movies) entityMap.get("feeds");
+      Movies movies = (Movies) entityMap.get("movies");
       movies.changeTitle(moviesDTO.getTitle());
-      feedsRepository.save(movies);
+      moviesRepository.save(movies);
       // photosList :: 수정창에서 이미지 수정할 게 있는 경우의 목록
       List<Photos> newPhotosList =
           (List<Photos>) entityMap.get("photosList");
       List<Photos> oldPhotosList =
-          photosRepository.findByFno(movies.getFno());
+          photosRepository.findByFno(movies.getMno());
       if(newPhotosList == null) {
         // 수정창에서 이미지 모두를 지웠을 때
-        photosRepository.deleteByFno(movies.getFno());
+        photosRepository.deleteByFno(movies.getMno());
         for (int i = 0; i < oldPhotosList.size(); i++) {
           Photos oldPhotos = oldPhotosList.get(i);
           String fileName = oldPhotos.getPath() + File.separator
@@ -151,8 +151,8 @@ public class FeedsServiceImpl implements FeedsService {
 
   @Transactional
   @Override
-  public List<String> removeWithReviewsAndPhotos(Long fno) {
-    List<Photos> list = photosRepository.findByFno(fno);
+  public List<String> removeWithReviewsAndPhotos(Long mno) {
+    List<Photos> list = photosRepository.findByFno(mno);
     List<String> result = new ArrayList<>();
     list.forEach(new Consumer<Photos>() {
       @Override
@@ -160,9 +160,9 @@ public class FeedsServiceImpl implements FeedsService {
         result.add(t.getPath() + File.separator + t.getUuid() + "_" + t.getImgName());
       }
     });
-    photosRepository.deleteByFno(fno);
-    reviewsRepository.deleteByFno(fno);
-    feedsRepository.deleteById(fno);
+    photosRepository.deleteByFno(mno);
+    reviewsRepository.deleteByFno(mno);
+    moviesRepository.deleteById(mno);
     return result;
   }
 

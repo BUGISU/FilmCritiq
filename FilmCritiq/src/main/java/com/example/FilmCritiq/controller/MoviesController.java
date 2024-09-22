@@ -2,7 +2,7 @@ package com.example.FilmCritiq.controller;
 
 import com.example.FilmCritiq.dto.MoviesDTO;
 import com.example.FilmCritiq.dto.PageRequestDTO;
-import com.example.FilmCritiq.service.FeedsService;
+import com.example.FilmCritiq.service.MoviesService;
 import com.example.FilmCritiq.service.ReviewsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,12 +22,12 @@ import java.util.List;
 
 @Controller
 @Log4j2
-@RequestMapping({"/feeds"})
+@RequestMapping({"/movies"})
 @RequiredArgsConstructor
-public class FeedsController {
-  private final FeedsService feedsService;
+public class MoviesController {
+  private final MoviesService moviesService;
   private final ReviewsService reviewsService;
-  private static final Logger logger = LoggerFactory.getLogger(FeedsController.class);
+  private static final Logger logger = LoggerFactory.getLogger(MoviesController.class);
 
   @GetMapping({"/register","/MovieDetailRegister"})
   public void register() {
@@ -35,44 +35,44 @@ public class FeedsController {
 
   @PostMapping({"/register","/MovieDetailRegister"})
   public String registerPost(MoviesDTO moviesDTO, RedirectAttributes ra) {
-    Long fno = feedsService.register(moviesDTO);
-    ra.addFlashAttribute("msg", fno);
-    return "redirect:/feeds/list";
+    Long mno = moviesService.register(moviesDTO);
+    ra.addFlashAttribute("msg", mno);
+    return "redirect:/movies/list";
   }
 
   @GetMapping({"","/","/list"})
   public String list(PageRequestDTO pageRequestDTO, Model model) {
-    model.addAttribute("pageResultDTO", feedsService.getList(pageRequestDTO));
-    return "/feeds/list";
+    model.addAttribute("pageResultDTO", moviesService.getList(pageRequestDTO));
+    return "/movies/list";
   }
 
   @GetMapping({"/read", "/modify","/MovieDetailView"})
-  public void getFeeds( Long fno, PageRequestDTO pageRequestDTO, Model model) {
-    logger.info("getFeeds called with fno: {}", fno);
-    MoviesDTO moviesDTO = feedsService.getFeeds(fno);
+  public void getMovies( Long mno, PageRequestDTO pageRequestDTO, Model model) {
+    logger.info("getMovies called with mno: {}", mno);
+    MoviesDTO moviesDTO = moviesService.getMovies(mno);
     typeKeywordInit(pageRequestDTO);
-    model.addAttribute("feedsDTO", moviesDTO);
+    model.addAttribute("moviesDTO", moviesDTO);
   }
   @PostMapping("/modify")
   public String modify(MoviesDTO dto, RedirectAttributes ra, PageRequestDTO pageRequestDTO){
     log.info("modify post... dto: " + dto);
-    feedsService.modify(dto);
+    moviesService.modify(dto);
     typeKeywordInit(pageRequestDTO);
-    ra.addFlashAttribute("msg", dto.getFno() + " 수정");
-    ra.addAttribute("fno", dto.getFno());
+    ra.addFlashAttribute("msg", dto.getMno() + " 수정");
+    ra.addAttribute("mno", dto.getMno());
     ra.addAttribute("page", pageRequestDTO.getPage());
     ra.addAttribute("type", pageRequestDTO.getType());
     ra.addAttribute("keyword", pageRequestDTO.getKeyword());
-    return "redirect:/feeds/read";
+    return "redirect:/movies/read";
   }
 
   @Value("${com.example.upload.path}")
   private String uploadPath;
 
   @PostMapping("/remove")
-  public String remove(Long fno, RedirectAttributes ra, PageRequestDTO pageRequestDTO){
-    log.info("remove post... fno: " + fno);
-    List<String> result = feedsService.removeWithReviewsAndPhotos(fno);
+  public String remove(Long mno, RedirectAttributes ra, PageRequestDTO pageRequestDTO){
+    log.info("remove post... mno: " + mno);
+    List<String> result = moviesService.removeWithReviewsAndPhotos(mno);
     log.info("result>>"+result);
     result.forEach(fileName -> {
       try {
@@ -86,15 +86,15 @@ public class FeedsController {
         log.info("remove file : "+e.getMessage());
       }
     });
-    if(feedsService.getList(pageRequestDTO).getDtoList().size() == 0 && pageRequestDTO.getPage() != 1) {
+    if(moviesService.getList(pageRequestDTO).getDtoList().size() == 0 && pageRequestDTO.getPage() != 1) {
       pageRequestDTO.setPage(pageRequestDTO.getPage()-1);
     }
     typeKeywordInit(pageRequestDTO);
-    ra.addFlashAttribute("msg", fno + " 삭제");
+    ra.addFlashAttribute("msg", mno + " 삭제");
     ra.addAttribute("page", pageRequestDTO.getPage());
     ra.addAttribute("type", pageRequestDTO.getType());
     ra.addAttribute("keyword", pageRequestDTO.getKeyword());
-    return "redirect:/feeds/list";
+    return "redirect:/movies/list";
   }
   private void typeKeywordInit(PageRequestDTO pageRequestDTO){
     if (pageRequestDTO.getType().equals("null")) pageRequestDTO.setType("");

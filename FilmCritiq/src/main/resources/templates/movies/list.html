@@ -41,7 +41,7 @@
       <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
         <!--1 번-->
         <div class="col mb-5"  th:each="moviesDTO : ${pageResultDTO.dtoList}"
-             th:onclick="goRead([[${moviesDTO.fno}]],[[${pageResultDTO.page}]],[[${pageRequestDTO.type}]], [[${pageRequestDTO.keyword}]])"
+             th:onclick="goRead([[${moviesDTO.mno}]],[[${pageResultDTO.page}]],[[${pageRequestDTO.type}]], [[${pageRequestDTO.keyword}]])"
              style="cursor:pointer;">
           <div class="card h-100">
             <!-- Product image-->
@@ -79,7 +79,7 @@
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
               <div class="text-center">
                 <a class="btn btn-outline-dark mt-auto"
-                   th:onclick="goRead([[${moviesDTO.fno}]],[[${pageResultDTO.page}]],
+                   th:onclick="goRead([[${moviesDTO.mno}]],[[${pageResultDTO.page}]],
                       [[${pageRequestDTO.type}]], [[${pageRequestDTO.keyword}]])">게시글 보기</a>
               </div>
             </div>
@@ -163,14 +163,14 @@
             history.replaceState({}, null, null) //(state, unused, url)
 
           }
-          function goRead(fno, page, type, keyword){
+          function goRead(mno, page, type, keyword){
             // 디버깅: 매개변수 값 출력
-            console.log('fno:', fno);
+            console.log('mno:', mno);
             console.log('page:', page);
             console.log('type:', type);
             console.log('keyword:', keyword);
             url = /*[[@{/movies/read}]]*/'url'
-            location.href = url + `?fno=${fno}&page=${page}&type=${type}&keyword=${keyword}`
+            location.href = url + `?mno=${mno}&page=${page}&type=${type}&keyword=${keyword}`
           }
   </script>
   <!-- Footer-->

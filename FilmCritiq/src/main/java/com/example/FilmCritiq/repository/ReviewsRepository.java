@@ -14,7 +14,7 @@ import java.util.List;
 public interface ReviewsRepository extends JpaRepository<Reviews, Long> {
     @EntityGraph(attributePaths = {"clubMember"},
             type = EntityGraph.EntityGraphType.FETCH)
-    List<Reviews> findByFeeds(Movies movies);
+    List<Reviews> findByMovies(Movies movies);
 
     // 쿼리메서드나, deleteById등은 한건씩 진행을 한다.
     // @Query를 사용해서 delete, update를 할 경우 Bulk연산을 함
@@ -25,6 +25,6 @@ public interface ReviewsRepository extends JpaRepository<Reviews, Long> {
     void deleteByClubMember(ClubMember clubMember);
 
     @Modifying //update, deltet할 때 항상 표기
-    @Query("delete from Reviews r where r.feeds.fno=:fno")
-    void deleteByFno(@Param("fno") Long fno);
+    @Query("delete from Reviews r where r.movies.mno=:mno")
+    void deleteByFno(@Param("mno") Long mno);
 }

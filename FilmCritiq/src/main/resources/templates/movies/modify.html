@@ -13,11 +13,11 @@
       .uploadResult ul li img {width: 100px;}
     </style>
     <div class="m-5">
-    <h1 class="mt-4 text-primary fw-bold fs-2">Feeds Modify Page</h1>
+    <h1 class="mt-4 text-primary fw-bold fs-2">Movies Modify Page</h1>
     <form th:action="@{/movies/modify}" th:method="post" id="frmSend">
       <div class="form-group">
         <label class=" fw-bold fs-4">FNO</label>
-        <input type="text" th:value="${moviesDTO.fno}" name="fno" class="form-control" readonly>
+        <input type="text" th:value="${moviesDTO.mno}" name="mno" class="form-control" readonly>
       </div>
       <div class="form-group">
         <label class=" fw-bold fs-4">Title</label>

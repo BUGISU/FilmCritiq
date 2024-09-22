@@ -16,14 +16,14 @@ import java.util.List;
 @RequestMapping("/reviews")
 public class ReviewsController {
   private final ReviewsService reviewsService;
-  @GetMapping(value = "/{fno}/all", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<ReviewsDTO>> getList(@PathVariable("fno") Long fno) {
-    log.info("fno: " + fno);
-    List<ReviewsDTO> reviewsDTOList = reviewsService.getListOfFeeds(fno);
+  @GetMapping(value = "/{mno}/all", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<ReviewsDTO>> getList(@PathVariable("mno") Long mno) {
+    log.info("mno: " + mno);
+    List<ReviewsDTO> reviewsDTOList = reviewsService.getListOfMovies(mno);
     return new ResponseEntity<>(reviewsDTOList, HttpStatus.OK);
   }
 
-  @PostMapping("/{fno}")
+  @PostMapping("/{mno}")
   // @RequestBody : form이나, json 데이터를 전송받을 때
   // @RequestParam : 변수로 데이터를 전송받을 때
   public ResponseEntity<Long> register(@RequestBody ReviewsDTO reviewsDTO) {
@@ -32,14 +32,14 @@ public class ReviewsController {
     return new ResponseEntity<>(revieswnum, HttpStatus.OK);
   }
 
-  @PutMapping("/{fno}/{reviewsnum}")
+  @PutMapping("/{mno}/{reviewsnum}")
   public ResponseEntity<Long> modify(@RequestBody ReviewsDTO reviewsDTO) {
     log.info(">>modify " + reviewsDTO);
     reviewsService.modify(reviewsDTO);
     return new ResponseEntity<>(reviewsDTO.getReviewsnum(), HttpStatus.OK);
   }
 
-  @DeleteMapping("/{fno}/{reviewsnum}")
+  @DeleteMapping("/{mno}/{reviewsnum}")
   public ResponseEntity<Long> delete(@PathVariable Long reviewsnum) {
     log.info(">>delete" + reviewsnum);
     reviewsService.remove(reviewsnum);

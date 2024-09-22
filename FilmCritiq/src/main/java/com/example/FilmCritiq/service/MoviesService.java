@@ -14,31 +14,31 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public interface FeedsService {
+public interface MoviesService {
   Long register(MoviesDTO moviesDTO);
 
   PageResultDTO<MoviesDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
-  MoviesDTO getFeeds(Long fno);
+  MoviesDTO getMovies(Long mno);
 
 
   void modify(MoviesDTO moviesDTO);
 
-  List<String> removeWithReviewsAndPhotos(Long fno);
+  List<String> removeWithReviewsAndPhotos(Long mno);
 
   void removeUuid(String uuid);
 
 
   default Map<String, Object> dtoToEntity(MoviesDTO moviesDTO) {
     Map<String, Object> entityMap = new HashMap<>();
-    Movies movies = Movies.builder().fno(moviesDTO.getFno())
+    Movies movies = Movies.builder().mno(moviesDTO.getMno())
             .title(moviesDTO.getTitle())
             .content(moviesDTO.getContent())
             .releaseDate(moviesDTO.getReleaseDate())
             .screeningTime(moviesDTO.getScreeningTime())
             .audienceAge(moviesDTO.getAudienceAge())
             .build();
-    entityMap.put("feeds", movies);
+    entityMap.put("movies", movies);
     List<PhotosDTO> photosDTOList = moviesDTO.getPhotosDTOList();
     if (photosDTOList != null && photosDTOList.size() > 0) {
       List<Photos> photosList = photosDTOList.stream().map(
@@ -63,7 +63,7 @@ public interface FeedsService {
   default MoviesDTO entityToDto(Movies movies, List<Photos> photosList
       , Long reviewsCnt) {
     MoviesDTO moviesDTO = MoviesDTO.builder()
-            .fno(movies.getFno())
+            .mno(movies.getMno())
             .title(movies.getTitle())
             .content(movies.getContent())
             .releaseDate(movies.getReleaseDate())

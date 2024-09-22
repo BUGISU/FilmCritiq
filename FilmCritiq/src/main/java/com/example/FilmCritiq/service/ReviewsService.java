@@ -7,7 +7,7 @@ import com.example.FilmCritiq.entity.Reviews;
 import java.util.List;
 
 public interface ReviewsService {
-  List<ReviewsDTO> getListOfFeeds(Long fno);
+  List<ReviewsDTO> getListOfMovies(Long mno);
   Long register(ReviewsDTO reviewsDTO);
 
   void modify(ReviewsDTO reviewsDTO);
@@ -17,7 +17,7 @@ public interface ReviewsService {
   public default Reviews dtoToEntity(ReviewsDTO reviewsDTO) {
     Reviews review = Reviews.builder()
         .reviewsnum(reviewsDTO.getReviewsnum())
-        .movies(Movies.builder().fno(reviewsDTO.getFno()).build())
+        .movies(Movies.builder().mno(reviewsDTO.getMno()).build())
         .clubMember(ClubMember.builder().cno(reviewsDTO.getCno()).build())
         .text(reviewsDTO.getText())
         .build();
@@ -27,7 +27,7 @@ public interface ReviewsService {
   default ReviewsDTO entityToDto(Reviews reviews) {
     ReviewsDTO reviewDTO = ReviewsDTO.builder()
         .reviewsnum(reviews.getReviewsnum())
-        .fno(reviews.getMovies().getFno())
+        .mno(reviews.getMovies().getMno())
         .cno(reviews.getClubMember().getCno())
         .nickname(reviews.getClubMember().getName())
         .email(reviews.getClubMember().getEmail())

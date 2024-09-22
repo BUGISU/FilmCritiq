@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"feeds", "clubMember"})
+@ToString(exclude = {"movies", "clubMember"})
 public class Reviews extends BasicEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

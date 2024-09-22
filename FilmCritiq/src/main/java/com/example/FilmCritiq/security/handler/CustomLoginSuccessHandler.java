@@ -29,12 +29,12 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     System.out.println(">>" + result.toString());
     for (int i = 0; i < result.size(); i++) {
       if (result.get(i).equals("ROLE_ADMIN")) {
-        response.sendRedirect(request.getContextPath() + "/feeds/list");
+        response.sendRedirect(request.getContextPath() + "/movies/list");
       } else if (result.get(i).equals("ROLE_MANAGER")) {
-        response.sendRedirect(request.getContextPath() + "/feeds/list");
+        response.sendRedirect(request.getContextPath() + "/movies/list");
       }
       else {
-        response.sendRedirect(request.getContextPath() + "/feeds/list");
+        response.sendRedirect(request.getContextPath() + "/movies/list");
       }
       break;
     }

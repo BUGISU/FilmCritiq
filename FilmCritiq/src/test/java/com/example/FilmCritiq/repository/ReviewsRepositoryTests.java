@@ -22,11 +22,11 @@ class ReviewsRepositoryTests {
     @Test
     public void insertReviews() {
         IntStream.rangeClosed(1, 200).forEach(i -> {
-            Long fno = (long) (Math.random() * 100) + 1;
+            Long mno = (long) (Math.random() * 100) + 1;
             Long cno = (long) (Math.random() * 100) + 1;
             Reviews review = Reviews.builder()
                     .clubMember(ClubMember.builder().cno(cno).build())
-                    .movies(Movies.builder().fno(fno).build())
+                    .movies(Movies.builder().mno(mno).build())
                     .text("이 피드는.....")
                     .build();
             reviewsRepository.save(review);
@@ -34,9 +34,9 @@ class ReviewsRepositoryTests {
     }
 
     @Test
-    public void testFindByFeeds() {
-        List<Reviews> result = reviewsRepository.findByFeeds(
-                Movies.builder().fno(100L).build()
+    public void testFindByMovies() {
+        List<Reviews> result = reviewsRepository.findByMovies(
+                Movies.builder().mno(100L).build()
         );
         result.forEach(review -> {
             System.out.println(review.getReviewsnum());
