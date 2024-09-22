@@ -1,5 +1,5 @@
 package com.example.FilmCritiq.repository.search;
-import com.example.FilmCritiq.entity.Feeds;
+import com.example.FilmCritiq.entity.Movies;
 
 import com.example.FilmCritiq.entity.QFeeds;
 import com.example.FilmCritiq.entity.QPhotos;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class SearchRepositoryImpl extends QuerydslRepositorySupport
     implements SearchRepository {
   public SearchRepositoryImpl() {
-    super(Feeds.class);
+    super(Movies.class);
   }
 
   @Override
@@ -37,7 +37,7 @@ public class SearchRepositoryImpl extends QuerydslRepositorySupport
     QReviews reviews = QReviews.reviews;
 
     //2) q도메인을 조인
-    JPQLQuery<Feeds> jpqlQuery = from(feeds);
+    JPQLQuery<Movies> jpqlQuery = from(feeds);
     jpqlQuery.leftJoin(photos).on(photos.feeds.eq(feeds));
     jpqlQuery.leftJoin(reviews).on(reviews.feeds.eq(feeds));
 
@@ -74,7 +74,7 @@ public class SearchRepositoryImpl extends QuerydslRepositorySupport
     sort.stream().forEach(order -> {
       Order direction = order.isAscending() ? Order.ASC : Order.DESC;
       String prop = order.getProperty();
-      PathBuilder orderByExpression = new PathBuilder(Feeds.class, "feeds");
+      PathBuilder orderByExpression = new PathBuilder(Movies.class, "feeds");
       tuple.orderBy(new OrderSpecifier<Comparable>(direction, orderByExpression.get(prop)));
     });
 

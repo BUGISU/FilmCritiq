@@ -1,7 +1,7 @@
 package com.example.FilmCritiq.repository;
 
 import com.example.FilmCritiq.repository.search.SearchRepository;
-import com.example.FilmCritiq.entity.Feeds;
+import com.example.FilmCritiq.entity.Movies;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface FeedsRepository extends JpaRepository<Feeds,Long>, SearchRepository {
+public interface FeedsRepository extends JpaRepository<Movies,Long>, SearchRepository {
 //  select m.fno, avg(coalesce(r.grade,0)), count(r.reviewnum)
 //  from movie m left outer join review r on m.fno = r.movie_fno
 //  group by m.fno;

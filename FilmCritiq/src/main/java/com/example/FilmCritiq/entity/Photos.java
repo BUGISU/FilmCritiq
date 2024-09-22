@@ -17,5 +17,5 @@ public class Photos extends BasicEntity{
   private String imgName;
   private String path;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Feeds feeds;
+  private Movies movies;
 }

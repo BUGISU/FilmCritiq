@@ -1,8 +1,8 @@
 package com.example.FilmCritiq.service;
 
+import com.example.FilmCritiq.entity.Movies;
 import com.example.FilmCritiq.repository.ReviewsRepository;
 import com.example.FilmCritiq.dto.ReviewsDTO;
-import com.example.FilmCritiq.entity.Feeds;
 import com.example.FilmCritiq.entity.Reviews;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class ReviewsServiceImpl implements ReviewsService {
   @Override
   public List<ReviewsDTO> getListOfFeeds(Long fno) {
     List<Reviews> result = reviewsRepository.findByFeeds(
-        Feeds.builder().fno(fno).build());
+        Movies.builder().fno(fno).build());
     return result.stream().map(reviews -> entityToDto(reviews)).collect(Collectors.toList());
   }
 

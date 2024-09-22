@@ -1,7 +1,7 @@
 package com.example.FilmCritiq.service;
 import com.example.FilmCritiq.dto.ReviewsDTO;
 import com.example.FilmCritiq.entity.ClubMember;
-import com.example.FilmCritiq.entity.Feeds;
+import com.example.FilmCritiq.entity.Movies;
 import com.example.FilmCritiq.entity.Reviews;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface ReviewsService {
   public default Reviews dtoToEntity(ReviewsDTO reviewsDTO) {
     Reviews review = Reviews.builder()
         .reviewsnum(reviewsDTO.getReviewsnum())
-        .feeds(Feeds.builder().fno(reviewsDTO.getFno()).build())
+        .movies(Movies.builder().fno(reviewsDTO.getFno()).build())
         .clubMember(ClubMember.builder().cno(reviewsDTO.getCno()).build())
         .text(reviewsDTO.getText())
         .build();
@@ -27,7 +27,7 @@ public interface ReviewsService {
   default ReviewsDTO entityToDto(Reviews reviews) {
     ReviewsDTO reviewDTO = ReviewsDTO.builder()
         .reviewsnum(reviews.getReviewsnum())
-        .fno(reviews.getFeeds().getFno())
+        .fno(reviews.getMovies().getFno())
         .cno(reviews.getClubMember().getCno())
         .nickname(reviews.getClubMember().getName())
         .email(reviews.getClubMember().getEmail())

@@ -1,7 +1,7 @@
 package com.example.FilmCritiq.repository;
 
 import com.example.FilmCritiq.entity.ClubMember;
-import com.example.FilmCritiq.entity.Feeds;
+import com.example.FilmCritiq.entity.Movies;
 import com.example.FilmCritiq.entity.Reviews;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +14,7 @@ import java.util.List;
 public interface ReviewsRepository extends JpaRepository<Reviews, Long> {
     @EntityGraph(attributePaths = {"clubMember"},
             type = EntityGraph.EntityGraphType.FETCH)
-    List<Reviews> findByFeeds(Feeds feeds);
+    List<Reviews> findByFeeds(Movies movies);
 
     // 쿼리메서드나, deleteById등은 한건씩 진행을 한다.
     // @Query를 사용해서 delete, update를 할 경우 Bulk연산을 함
