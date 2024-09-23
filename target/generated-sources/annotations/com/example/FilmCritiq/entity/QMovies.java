@@ -10,22 +10,24 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QFeeds is a Querydsl query type for Feeds
+ * QMovies is a Querydsl query type for Movies
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QFeeds extends EntityPathBase<Feeds> {
+public class QMovies extends EntityPathBase<Movies> {
 
-    private static final long serialVersionUID = -1034208927L;
+    private static final long serialVersionUID = -1785555465L;
 
-    public static final QFeeds feeds = new QFeeds("feeds");
+    public static final QMovies movies = new QMovies("movies");
 
     public final QBasicEntity _super = new QBasicEntity(this);
+
+    public final StringPath audienceAge = createString("audienceAge");
 
     public final NumberPath<Long> cno = createNumber("cno", Long.class);
 
     public final StringPath content = createString("content");
 
-    public final NumberPath<Long> fno = createNumber("fno", Long.class);
+    public final NumberPath<Long> mno = createNumber("mno", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
@@ -33,18 +35,22 @@ public class QFeeds extends EntityPathBase<Feeds> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
 
+    public final StringPath releaseDate = createString("releaseDate");
+
+    public final StringPath screeningTime = createString("screeningTime");
+
     public final StringPath title = createString("title");
 
-    public QFeeds(String variable) {
-        super(Feeds.class, forVariable(variable));
+    public QMovies(String variable) {
+        super(Movies.class, forVariable(variable));
     }
 
-    public QFeeds(Path<? extends Feeds> path) {
+    public QMovies(Path<? extends Movies> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QFeeds(PathMetadata metadata) {
-        super(Feeds.class, metadata);
+    public QMovies(PathMetadata metadata) {
+        super(Movies.class, metadata);
     }
 
 }

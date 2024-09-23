@@ -26,10 +26,10 @@ public class QReviews extends EntityPathBase<Reviews> {
 
     public final QClubMember clubMember;
 
-    public final QFeeds feeds;
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
+
+    public final QMovies movies;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
@@ -57,7 +57,7 @@ public class QReviews extends EntityPathBase<Reviews> {
     public QReviews(Class<? extends Reviews> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.clubMember = inits.isInitialized("clubMember") ? new QClubMember(forProperty("clubMember")) : null;
-        this.feeds = inits.isInitialized("feeds") ? new QFeeds(forProperty("feeds")) : null;
+        this.movies = inits.isInitialized("movies") ? new QMovies(forProperty("movies")) : null;
     }
 
 }

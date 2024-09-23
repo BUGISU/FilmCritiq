@@ -24,12 +24,12 @@ public class QPhotos extends EntityPathBase<Photos> {
 
     public final QBasicEntity _super = new QBasicEntity(this);
 
-    public final QFeeds feeds;
-
     public final StringPath imgName = createString("imgName");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
+
+    public final QMovies movies;
 
     public final StringPath path = createString("path");
 
@@ -58,7 +58,7 @@ public class QPhotos extends EntityPathBase<Photos> {
 
     public QPhotos(Class<? extends Photos> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.feeds = inits.isInitialized("feeds") ? new QFeeds(forProperty("feeds")) : null;
+        this.movies = inits.isInitialized("movies") ? new QMovies(forProperty("movies")) : null;
     }
 
 }
