@@ -9,7 +9,7 @@
         <div class="text-center text-white">
           <h1 class="display-4 fw-bolder">FilmCritiq</h1>
           <div class="d-grid gap-2 col-6 mx-auto">
-            <a class="btn btn-outline-primary m-4 " th:href="@{/movies/MovieDetailRegister}">게시글 올리기</a>
+            <a class="btn btn-outline-primary m-4 " th:href="@{/movies/movieDetailRegister}">영화 등록</a>
           </div>
           <!--검색 기능-->
 <!--          <div class="d-grid gap-2 col-8 mx-auto">
@@ -80,7 +80,7 @@
               <div class="text-center">
                 <a class="btn btn-outline-dark mt-auto"
                    th:onclick="goRead([[${moviesDTO.mno}]],[[${pageResultDTO.page}]],
-                      [[${pageRequestDTO.type}]], [[${pageRequestDTO.keyword}]])">게시글 보기</a>
+                      [[${pageRequestDTO.type}]], [[${pageRequestDTO.keyword}]])">상세보기</a>
               </div>
             </div>
           </div>
@@ -169,7 +169,7 @@
             console.log('page:', page);
             console.log('type:', type);
             console.log('keyword:', keyword);
-            url = /*[[@{/movies/read}]]*/'url'
+            url = /*[[@{/movies/movieDetailView}]]*/'url'
             location.href = url + `?mno=${mno}&page=${page}&type=${type}&keyword=${keyword}`
           }
   </script>

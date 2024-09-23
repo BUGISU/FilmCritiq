@@ -21,11 +21,17 @@ public class QMovies extends EntityPathBase<Movies> {
 
     public final QBasicEntity _super = new QBasicEntity(this);
 
+    public final StringPath actor = createString("actor");
+
     public final StringPath audienceAge = createString("audienceAge");
 
     public final NumberPath<Long> cno = createNumber("cno", Long.class);
 
     public final StringPath content = createString("content");
+
+    public final StringPath director = createString("director");
+
+    public final StringPath genre = createString("genre");
 
     public final NumberPath<Long> mno = createNumber("mno", Long.class);
 

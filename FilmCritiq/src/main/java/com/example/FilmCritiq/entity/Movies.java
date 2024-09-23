@@ -14,8 +14,13 @@ public class Movies extends BasicEntity{
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long mno;
   private Long cno;
+
   private String title;
   private String content;
+
+  private String director;//감독
+  private String actor;//배우
+  private String genre;// 장르
 
   private String releaseDate; //개봉일
   private String screeningTime; //상영시간

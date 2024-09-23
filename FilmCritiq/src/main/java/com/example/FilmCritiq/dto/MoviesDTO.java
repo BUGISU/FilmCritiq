@@ -20,6 +20,10 @@ public class MoviesDTO {
   private String title; //영화제목 내용
   private String content; //줄거리 내용
 
+  private String director;//감독
+  private String actor;//배우
+  private String genre;// 장르
+
   private String releaseDate; //개봉일
   private String screeningTime; //상영시간
   private String audienceAge; //관람층

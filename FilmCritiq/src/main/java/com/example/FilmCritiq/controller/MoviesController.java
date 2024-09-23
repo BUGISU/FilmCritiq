@@ -29,11 +29,11 @@ public class MoviesController {
   private final ReviewsService reviewsService;
   private static final Logger logger = LoggerFactory.getLogger(MoviesController.class);
 
-  @GetMapping({"/register","/MovieDetailRegister"})
+  @GetMapping({"/register","/movieDetailRegister"})
   public void register() {
   }
 
-  @PostMapping({"/register","/MovieDetailRegister"})
+  @PostMapping({"/register","/movieDetailRegister"})
   public String registerPost(MoviesDTO moviesDTO, RedirectAttributes ra) {
     Long mno = moviesService.register(moviesDTO);
     ra.addFlashAttribute("msg", mno);
@@ -46,7 +46,7 @@ public class MoviesController {
     return "/movies/list";
   }
 
-  @GetMapping({"/read", "/modify","/MovieDetailView"})
+  @GetMapping({"/read", "/modify","/movieDetailView"})
   public void getMovies( Long mno, PageRequestDTO pageRequestDTO, Model model) {
     logger.info("getMovies called with mno: {}", mno);
     MoviesDTO moviesDTO = moviesService.getMovies(mno);
@@ -63,7 +63,7 @@ public class MoviesController {
     ra.addAttribute("page", pageRequestDTO.getPage());
     ra.addAttribute("type", pageRequestDTO.getType());
     ra.addAttribute("keyword", pageRequestDTO.getKeyword());
-    return "redirect:/movies/read";
+    return "redirect:/movies/movieDetailView";
   }
 
   @Value("${com.example.upload.path}")
