@@ -59,7 +59,7 @@
                  class="card-img-top"
                  alt="Feed Image"
                  style="width: 100%; height:200px; object-fit: cover;"/>
-
+<!--            <img style="width:100%" src="${url}?fileName=${file}&size=1">-->
 <!--            &lt;!&ndash; 기본 이미지: 피드 이미지가 없거나 유효하지 않을 때 표시 &ndash;&gt;-->
             <img th:unless="${moviesDTO.photosDTOList.size() > 0 && moviesDTO.photosDTOList[0].path != null}"
                  src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
