@@ -66,15 +66,18 @@ public interface MoviesService {
   default MoviesDTO entityToDto(Movies movies, List<Photos> photosList
       , Long reviewsCnt) {
     MoviesDTO moviesDTO = MoviesDTO.builder()
-            .mno(movies.getMno())
-            .title(movies.getTitle())
-            .content(movies.getContent())
-            .releaseDate(movies.getReleaseDate())
-            .screeningTime(movies.getScreeningTime())
-            .audienceAge(movies.getAudienceAge()  )
-            .regDate(movies.getRegDate())
-            .modDate(movies.getModDate())
-            .build();
+        .mno(movies.getMno())
+        .title(movies.getTitle())
+        .content(movies.getContent())
+        .director(movies.getDirector())
+        .actor(movies.getActor())
+        .genre(movies.getGenre())
+        .releaseDate(movies.getReleaseDate())
+        .screeningTime(movies.getScreeningTime())
+        .audienceAge(movies.getAudienceAge()  )
+        .regDate(movies.getRegDate())
+        .modDate(movies.getModDate())
+        .build();
     List<PhotosDTO> photosDTOList = new ArrayList<>();
     if(photosList.toArray().length > 0 && photosList.toArray()[0] != null) {
       photosDTOList = photosList.stream().map(
