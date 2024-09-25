@@ -78,22 +78,26 @@
             </div>
             <form th:action="@{/movies/modify}" th:method="post" id="frmSend">
                 <div class="form-group " >
+                    <label for="content" class="mt-4 fw-bold fs-4">영화제목</label>
                     <label id="title" class="mt-4 fw-bold fs-4"  th:text="${moviesDTO.title}"></label>
-                </div>
-                <div class="form-group">
                     <label for="content" class="mt-4 fw-bold fs-4">Content</label>
                     <input class="form-control" th:value="${moviesDTO.content}" name="content" id="content" style="height: 100px"
                            readonly>
-                </div>
-                <div class="form-group">
                     <label for="reviewsCnt" class=" fw-bold fs-4">Review Count</label>
                     <input type="text" name="reviewsCnt" id="reviewsCnt" class="form-control" th:value="${moviesDTO.reviewsCnt}"
-                           readonly></input>
-                </div>
-                <div class="form-group">
+                           readonly />
                     <label for="regDate" class=" fw-bold fs-4">RegDate</label>
                     <input type="text" name="regDate" id="regDate" class="form-control" readonly
                            th:value="${#temporals.format(moviesDTO.regDate, 'yyyy/MM/dd hh:mm')}">
+                </div>
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+
                 </div>
                 <div class="form-group">
                     <label for="modDate" class=" fw-bold fs-4">ModDate</label>
