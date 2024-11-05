@@ -55,7 +55,7 @@
 <!--            </div>-->
             <!-- 피드 이미지가 있을 때만 표시되는 이미지 -->
             <img th:if="${moviesDTO.photosDTOList.size() > 0 && moviesDTO.photosDTOList[0].path != null}"
-                 th:src="|@{/display(fileName=${moviesDTO.photosDTOList[0].getThumbnailURL()})}|"
+                 th:src="|@{/display(fileName=${moviesDTO.photosDTOList[0].getImageURL()})}|"
                  class="card-img-top"
                  alt="Feed Image"
                  style="width: 100%; height:200px; object-fit: cover;"/>
