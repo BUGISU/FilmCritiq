@@ -49,7 +49,7 @@
     margin: 0 !important;
   }
   .uploadResult ul li img {
-width:100%
+    width:100%
   }
   .star {
     position: relative;
@@ -87,7 +87,7 @@ width:100%
         </div>
       </div>
       <div class="detail-group-right">
-        <form th:action="@{/movies/modify}" th:method="post" id="frmSend">
+        <form th:action="@{/movies/movieModify}" th:method="post" id="frmSend">
           <div>
             <label for="title" class="mt-1 fw-bold fs-4">영화제목</label>
             <span th:text="${moviesDTO.title}" name="title" id="title" style="height: 50px" readonly></span>
@@ -122,12 +122,12 @@ width:100%
                    th:value="${#temporals.format(moviesDTO.modDate, 'yyyy/MM/dd hh:mm')}"></input>
           </div>
         </form>
-        <div >
-          <a th:href="@{/movies/modify(mno=${moviesDTO.mno},
+        <div style="margin:5px" >
+          <a th:href="@{/movies/movieModify(mno=${moviesDTO.mno},
                       page=${pageRequestDTO.page},type=${pageRequestDTO.type},
-                      keyword=${pageRequestDTO.keyword})}" class="btn btn-primary">Modify</a>
+                      keyword=${pageRequestDTO.keyword})}" class="btn btn-primary">수정</a>
           <a th:href="@{/movies/list(page=${pageRequestDTO.page},
-                      type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}" class="btn btn-info">List</a>
+                      type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}" class="btn btn-info">뒤로가기</a>
         </div>
       </div>
       <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -162,8 +162,7 @@ width:100%
           </div>
 
         </div>
-        <div class="list-group reviewsList" style="margin-bottom:50px;">
-
+        <div class="list-group reviewsList" style="margin:25px 0px 25px 0px;">
         </div>
         <script th:inline="javascript">
           ///////////////// window.onload : document의 태그를 모두 읽고 난뒤 실행되는 함수  /////////////////

@@ -59,7 +59,7 @@
     <div class="m-5">
       <h1 class=" text-primary fw-bold fs-2">Movies Content</h1>
 <!--      <span sec:authentication="name"></span><br>-->
-      <form th:action="@{/movies/modify}" th:method="post" id="frmSend">
+      <form th:action="@{/movies/movieModify}" th:method="post" id="frmSend">
         <div class="form-group">
           <label for="mno" class=" fw-bold fs-4">FNO</label>
           <input type="text" name="mno" id="mno" class="form-control" th:value="${moviesDTO.mno}" readonly>
@@ -97,7 +97,7 @@
           </ul>
         </div>
         <div class="form-group">
-          <a th:href="@{/movies/modify(mno=${moviesDTO.mno},
+          <a th:href="@{/movies/movieModify(mno=${moviesDTO.mno},
                       page=${pageRequestDTO.page},type=${pageRequestDTO.type},
                       keyword=${pageRequestDTO.keyword})}" class="btn btn-primary">Modify</a>
           <a th:href="@{/movies/list(page=${pageRequestDTO.page},

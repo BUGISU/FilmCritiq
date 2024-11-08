@@ -46,14 +46,14 @@ public class MoviesController {
     return "/movies/list";
   }
 
-  @GetMapping({"/read", "/modify","/movieDetailView"})
+  @GetMapping({"/read", "/modify","/movieDetailView","/movieModify"})
   public void getMovies( Long mno, PageRequestDTO pageRequestDTO, Model model) {
     logger.info("getMovies called with mno: {}", mno);
     MoviesDTO moviesDTO = moviesService.getMovies(mno);
     typeKeywordInit(pageRequestDTO);
     model.addAttribute("moviesDTO", moviesDTO);
   }
-  @PostMapping("/modify")
+  @PostMapping({"/modify","/movieModify"})
   public String modify(MoviesDTO dto, RedirectAttributes ra, PageRequestDTO pageRequestDTO){
     log.info("modify post... dto: " + dto);
     moviesService.modify(dto);
