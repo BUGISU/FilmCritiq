@@ -175,7 +175,7 @@
               uploadResultUlLis[i].onclick = function () {
                 const url = /*[[@{/display}]]*/'url'
                 const file = this.dataset.file;
-                document.querySelector("#exampleModalLabel").textContent = 'Movies Poster'
+                document.querySelector("#exampleModalLabel").textContent = '영화 포스터'
                 document.querySelector(".modal-body").innerHTML =
                   `<img style="width:100%" src="${url}?fileName=${file}&size=1">`
                 document.querySelector(".modal-footer").innerHTML =
