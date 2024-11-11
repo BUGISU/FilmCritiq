@@ -40,7 +40,7 @@
       .then(res => res.json())
       .then(json => {console.log(json);showUploadedImages(json)})
       .catch(err => console.log("Error occurred: ", err))
-
+    console.log(showUploadedImages(json))
     }
   }
   function showUploadedImages(arr) {
@@ -48,7 +48,7 @@
     let str = ""
     const url = /*[[@{/display}]]*/'url'
     for(let i=0;i<arr.length;i++){
-      str += `<div><img src="${url}?fileName=${arr[i].thumbnailURL}">
+      str += `<div><img src="${url}?fileName=${arr[i].imageURL}">
       <button class="removeBtn" data-name='${arr[i].imageURL}'>X</button></div>`
     }
     uploadResultDiv.innerHTML = str;

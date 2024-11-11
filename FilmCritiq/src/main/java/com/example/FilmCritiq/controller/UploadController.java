@@ -73,9 +73,11 @@ public class UploadController {
       String searchFilename = URLDecoder.decode(fileName, "UTF-8");
       File file = new File(uploadPath + File.separator + searchFilename);
       if (size != null && size.equals("1")) {
-        log.info(">>", file.getPath());
+        log.info(">>getName", file.getName());
+        log.info(">>getPath", file.getPath());
         // 미리보기 할 때 링크에 size=1로 설정하여 섬네일명에서 s_ 를 제거하고 가져옴
-        file = new File(file.getParent(), file.getName().substring(2));
+//        file = new File(file.getParent(), file.getName().substring(2));
+        file = new File(file.getParent(), file.getName());
       }
       log.info("file: " + file);
       HttpHeaders headers = new HttpHeaders();
@@ -102,7 +104,7 @@ public class UploadController {
       searchFilename = URLDecoder.decode(fileName, "UTF-8");
       File file = new File(uploadPath + File.separator + searchFilename);
       boolean result1 = file.delete();
-      File thumbnail = new File(file.getParent(), "s_" + file.getName());
+      File thumbnail = new File(file.getParent(), file.getName());
       boolean result2 = thumbnail.delete();
       boolean tmp = result1 && result2;
       log.info(">>", tmp + "=" + result1 + "&&" + result2);
