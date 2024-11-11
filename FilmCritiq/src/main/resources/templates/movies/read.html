@@ -90,9 +90,9 @@
         </div>
         <div class="uploadResult">
           <ul>
-            <li th:each="photosDTO : ${moviesDTO.photosDTOList}" th:data-file="${photosDTO.getThumbnailURL}"
+            <li th:each="photosDTO : ${moviesDTO.photosDTOList}" th:data-file="${photosDTO.getImageURL}"
                 style="cursor:pointer;">
-              <img th:if="${photosDTO.path != null}" th:src="|@{/display(fileName=${photosDTO.getThumbnailURL})}|">
+              <img th:if="${photosDTO.path != null}" th:src="|@{/display(fileName=${photosDTO.getImageURL})}|">
             </li>
           </ul>
         </div>

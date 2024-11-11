@@ -91,7 +91,7 @@
               </button>
               <img
                       th:if="${photosDTO.path != null}"
-                      th:src="|@{/display(fileName=${photosDTO.getThumbnailURL})}|">
+                      th:src="|@{/display(fileName=${photosDTO.getImageURL})}|">
             </div>
           </li>
         </ul>
