@@ -120,49 +120,53 @@
     </div>
   </section>
   <script th:inline="javascript">
-    // document의 태그를 모두 읽고 난뒤 실행되는 함수
-          window.onload = function(){
-            frmSearch = document.querySelector("#frmSearch")
-            btnSearch = document.querySelector(".btnSearch")
-            type = document.querySelector("#type");
-            keyword = document.querySelector("#keyword")
+    window.onload = function() {
+      const frmSearch = document.querySelector("#frmSearch");
+      const btnSearch = document.querySelector(".btnSearch");
+      const type = document.querySelector("#type");
+      const keyword = document.querySelector("#keyword");
 
-            btnSearch.onclick = e => {
-              e.preventDefault();
-              if(!keyword.value) {
-                keyword.focus();
-                return;
-              }
-              frmSearch.submit();
-            }
-            type.onchange = () => {
-              if(type.options[0].selected) {
-                location.href = /*[[@{/movies/list}]]*/'url'
-              } else {
-                keyword.disabled = false;
-                btnSearch.disabled = false;
-              }
-            }
-            const requestKeyword = /*[[${pageRequestDTO.keyword}]]*/'keyword'
-            keyword.disabled = requestKeyword?false:true;
-            btnSearch.disabled = requestKeyword?false:true;
-
-            var msg = [[${msg}]]
-            // 일회성 msg의 내용이 비거나 history 상태가 비지 않는 경우 return
-            if(msg === '' || history.state) return
-
-            if(msg) {  // truthy 데이터가 올 경우만 if문 실행
-              const myModal = new bootstrap.Modal(document.querySelector('#myModal'),
-                              { backdrop: true });
-              document.querySelector(".modal-body").innerHTML
-                = `<p>${msg}되었습니다.</p>`
-              myModal.show()
-            }
-            // history 이용해서 모달창 보여준거에 대한 기록을 clear!
-            history.replaceState({}, null, null) //(state, unused, url)
-
+      if (btnSearch && frmSearch) { // btnSearch와 frmSearch가 존재할 경우에만 실행
+        btnSearch.onclick = e => {
+          e.preventDefault();
+          if (!keyword.value) {
+            keyword.focus();
+            return;
           }
-          function goRead(mno, page, type, keyword){
+          frmSearch.submit();
+        };
+      }
+
+      if (type) { // type 요소가 존재할 경우에만 실행
+        type.onchange = () => {
+          if (type.options[0].selected) {
+            location.href = 'url'; // URL은 적절한 링크로 수정 필요
+          } else {
+            keyword.disabled = false;
+            btnSearch.disabled = false;
+          }
+        };
+      }
+
+      const requestKeyword = 'keyword'; // 필요에 따라 변경
+      if (keyword) {
+        keyword.disabled = requestKeyword ? false : true;
+      }
+      if (btnSearch) {
+        btnSearch.disabled = requestKeyword ? false : true;
+      }
+
+      // 메시지 표시
+      const msg = [[${msg}]];
+    if (msg && !history.state) {
+      const myModal = new bootstrap.Modal(document.querySelector('#myModal'), { backdrop: true });
+      document.querySelector(".modal-body").innerHTML = `<p>${msg}되었습니다.</p>`;
+      myModal.show();
+      history.replaceState({}, null, null);
+    }
+    };
+
+    function goRead(mno, page, type, keyword){
             // 디버깅: 매개변수 값 출력
             console.log('mno:', mno);
             console.log('page:', page);

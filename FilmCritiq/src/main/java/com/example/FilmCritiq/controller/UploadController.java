@@ -5,7 +5,6 @@ import com.example.FilmCritiq.dto.UploadResultDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,18 +45,14 @@ public class UploadController {
       String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
       log.info("fileName: " + fileName);
 
-      String folderPath = makeFolder(); // yyyy/MM/dd
-      String uuid = UUID.randomUUID().toString(); //unique
-      String saveName = uploadPath + File.separator + folderPath + File.separator
-          + uuid + "_" + fileName;
+      String folderPath = makeFolder(); // yyyy/MM/dd 형식 폴더 생성
+      String uuid = UUID.randomUUID().toString(); // 고유 ID 생성
+      String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName;
       Path savePath = Paths.get(saveName);
+
       try {
-        multipartFile.transferTo(savePath); //원본 파일 저장
-        String thumbnailSaveName = uploadPath + File.separator + folderPath
-            + File.separator + "s_" + uuid + "_" + fileName;
-        File thumbnailFile = new File(thumbnailSaveName);
-        Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
-        resultDTOList.add(new UploadResultDTO(fileName, uuid, folderPath));
+        multipartFile.transferTo(savePath); // 원본 파일 저장
+        resultDTOList.add(new UploadResultDTO(fileName, uuid, folderPath)); // 업로드 결과에 추가
       } catch (IOException e) {
         log.error(e.getMessage());
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -67,51 +62,44 @@ public class UploadController {
   }
 
   @GetMapping("/display")
-  public ResponseEntity<byte[]> getImageFile(String fileName, String size) {
-    ResponseEntity<byte[]> result = null;
+  public ResponseEntity<byte[]> getImageFile(String fileName) {
     try {
       String searchFilename = URLDecoder.decode(fileName, "UTF-8");
       File file = new File(uploadPath + File.separator + searchFilename);
-      if (size != null && size.equals("1")) {
-        log.info(">>getName", file.getName());
-        log.info(">>getPath", file.getPath());
-        // 미리보기 할 때 링크에 size=1로 설정하여 섬네일명에서 s_ 를 제거하고 가져옴
-//        file = new File(file.getParent(), file.getName().substring(2));
-        file = new File(file.getParent(), file.getName());
-      }
-      log.info("file: " + file);
       HttpHeaders headers = new HttpHeaders();
-      // 파일의 확장자에 따라서 브라우저에 전송하는 MIME타입을 결정
       headers.add("Content-Type", Files.probeContentType(file.toPath()));
-      result = new ResponseEntity<>(
-          FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
+      return new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
     } catch (Exception e) {
       log.error(e.getMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return result;
   }
 
   @Transactional
   @PostMapping("/removeFile")
   public ResponseEntity<Boolean> removeFile(String fileName, String uuid) {
     log.info("remove fileName: " + fileName);
-    String searchFilename = null;
-    if (uuid != null) {
-      photosRepository.deleteByUuid(uuid);
-    }
+    boolean originalFileDeleted = false;
+
     try {
-      searchFilename = URLDecoder.decode(fileName, "UTF-8");
-      File file = new File(uploadPath + File.separator + searchFilename);
-      boolean result1 = file.delete();
-      File thumbnail = new File(file.getParent(), file.getName());
-      boolean result2 = thumbnail.delete();
-      boolean tmp = result1 && result2;
-      log.info(">>", tmp + "=" + result1 + "&&" + result2);
-      return new ResponseEntity<>(tmp,
-          tmp ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR);
+      // 파일 이름을 UTF-8로 디코딩
+      String decodedFileName = URLDecoder.decode(fileName, "UTF-8");
+
+      // 원본 파일 삭제
+      File originalFile = new File(uploadPath + File.separator + decodedFileName);
+      originalFileDeleted = originalFile.delete();
+      log.info("Original file deleted: " + originalFileDeleted);
+
+      // DB에서 uuid에 해당하는 레코드 삭제
+      if (uuid != null) {
+        photosRepository.deleteByUuid(uuid);
+      }
+
+      // 삭제 결과 반환
+      return new ResponseEntity<>(originalFileDeleted, originalFileDeleted ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR);
+
     } catch (Exception e) {
-      log.error(e.getMessage());
+      log.error("Error deleting file: ", e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

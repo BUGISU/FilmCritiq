@@ -58,7 +58,7 @@ public class MoviesController {
     log.info("modify post... dto: " + dto);
     moviesService.modify(dto);
     typeKeywordInit(pageRequestDTO);
-    ra.addFlashAttribute("msg", dto.getMno() + " 수정");
+    ra.addFlashAttribute("msg", dto.getMno() + "번 수정");
     ra.addAttribute("mno", dto.getMno());
     ra.addAttribute("page", pageRequestDTO.getPage());
     ra.addAttribute("type", pageRequestDTO.getType());

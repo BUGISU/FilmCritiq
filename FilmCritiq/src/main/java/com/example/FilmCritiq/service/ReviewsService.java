@@ -12,7 +12,7 @@ public interface ReviewsService {
 
   void modify(ReviewsDTO reviewsDTO);
 
-  void remove(Long revieswnum);
+  void remove(Long reviewsnum);
 
   public default Reviews dtoToEntity(ReviewsDTO reviewsDTO) {
     Reviews review = Reviews.builder()

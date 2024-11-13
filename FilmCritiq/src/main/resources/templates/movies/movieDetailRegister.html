@@ -1,195 +1,210 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{/main/basic :: setContent(~{this::content})}">
-    <th:block th:fragment="content">
-        <div class="m-5">
-            <h1 class="mt-4 text-primary fw-bold fs-2">영화 등록</h1>
-            <style>
-                .detail-group-left {
-                    width: 30%;
-	                height: 500px;
-	                float: left;
-	                background-color:powderblue;
-                }
-                .detail-group-right {
-                    width: 68%;
-	                height: 500px;
-	                margin:10px;
-	                float: left;
+  <th:block th:fragment="content">
+    <style>
+      .detail-group-left {
+        width: 30%;
+        height: 500px;
+        float: left;
+        display: none;
+      }
+      .detail-group-right {
+        width: 68%;
+        height: 500px;
+        margin: 10px;
+        float: left;
+      }
+      .detail-group-right input {
+        margin: 5px;
+      }
+      .uploadResult {
+        width: 100%;
+        margin-top: 10px;
+        overflow-x: auto; /* 가로 스크롤을 자동으로 표시 */
+      }
+      .uploadResult ul {
+        display: inline-flex; /* flex 대신 inline-flex 사용 */
+        width: max-content; /* 콘텐츠에 맞춰 확장 */
+        align-items: center;
+        white-space: nowrap; /* 가로로 넘치도록 설정 */
+      }
+      .uploadResult ul li {
+        list-style: none;
+        padding: 10px;
+        margin: 0 10px;
+      }
+      .uploadResult ul li img {
+        width: 300px;
+        height: auto;
+      }
+      .form-group {
+        width: 100%;
+      }
+    </style>
+    <div class="m-5">
+      <h1 class="mt-4 text-primary fw-bold fs-2">영화 등록</h1>
+      <label for="fileInput" class="fw-bold fs-4">스틸컷 추가하기</label>
 
-                }
-                .detail-group-right input{
-	                margin: 5px;
-                }
-                .uploadResult {width: 100%;margin-top:10px;}
-                .uploadResult ul {
-                  display: flex;
-                  flex-flow:row;
-                  justify-content:center;
-                  align-items:center;
-                  vertical-align:top;
-                  overflow: auto;
-                }
-                .form-group{
-                    width:100%;
-                }
-                .uploadResult ul li {list-style:none;padding:10px;margin-left:2em;}
-                .uploadResult ul li img {width: 300px;}
-            </style>
-            <form th:action="@{/movies/register}" th:method="post" id="frmSend">
-
-                <div class="box"></div> <!--submit 버튼을 누를 때 필요한 자료 두는 곳-->
-                <div class="detail-group">
-                    <div class="detail-group-left">
-                        <label for="fileInput"  class="fw-bold fs-4">스틸컷 추가하기</label>
-                        <div class="form-group input-group mb-3">
-                            <input type="file" id="fileInput" class="custom-file-input form-control files" multiple>
-                            <label id="custom-label"></label>
-                        </div>
-                        <div class="uploadResult"><!--file의 onchange 후에 보여질 섬네일 보여주는 영역-->
-                            <ul></ul>
-                        </div>
-                    </div>
-                    <div class="detail-group-right">
-                        <input type="text" name="title" id="title" class="form-control"
-                               placeholder="영화 제목을 입력하세요">
-                        <div>
-                            <!--감독-->
-                            <input type="text" name="director" id="director" class="form-control"
-                                   placeholder="감독을 입력하세요">
-                            <!--배우-->
-                            <input type="text" name="actor" id="actor" class="form-control"
-                                   placeholder="배우를 입력하세요">
-                            <!--장르-->
-                            <input type="text" name="genre" id="genre" class="form-control"
-                                   placeholder="장르를 입력하세요">
-                            <!--개봉일-->
-                            <input type="text" name="releaseDate" id="releaseDate" class="form-control"
-                                   placeholder="개봉일을 입력하세요">
-                            <!--상영시간-->
-                            <input type="text" name="screeningTime" id="screeningTime" class="form-control"
-                                   placeholder="상영시간을 입력하세요">
-                            <!--연령층-->
-                            <input type="text" name="audienceAge" id="audienceAge" class="form-control"
-                                   placeholder="연령층을 입력하세요">
-                        </div>
-                        <input class="form-control" placeholder="줄거리를 입력하세요" name="content" id="content" style="height: 100px">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label type="submit" id="btnSend" class="input-group-text justify-content-center align-items-center" for="fileInput" style="width: 400px">Submit</label>
-                </div>
-
-            </form>
-
-            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-            <script th:inline="javascript">
-                function checkExtension(fileName, fileSize){
-                  maxSize = 1024*1024*10;
-                  if(fileSize >= maxSize) {alert("파일사이즈 초과");return false; }
-                  // https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_expressions
-                  //const regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff)$");
-                  const regex = new RegExp("(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$",'i');//i대소문자구분X
-                  if(!regex.test(fileName)) {alert("해당파일 업로드 금지!");return false; }
-                  return true
-                }
-                const fileInput = document.querySelector("#fileInput")
-                fileInput.onchange = function() {
-                  let formData = new FormData();
-                  const fileName = fileInput.value.split("\\").pop();
-                  let label = document.querySelector("#custom-label")
-                  label.innerHTML =
-                    (fileInput.files.length-1) == 0 ? "" :
-                          `${fileName} 외 ${fileInput.files.length-1}개`
-                  let appended = false; // 파일이 잘 추가되는지 확인
-                  for(let i=0;i<fileInput.files.length;i++) {
-                    if(!checkExtension(fileInput.files[i].name, fileInput.files.size)) {
-                      label.innerHTML = ''; fileInput.value = '';
-                      appended = false;break;
-                    }
-                    formData.append("uploadFiles", fileInput.files[i])
-                    appended = true;
-                  }
-                  if(!appended) return;
-                  for(const value of formData.values()) console.log(value)
-                  const url = /*[[@{/uploadAjax}]]*/'url'
-                  fetch(url, {
-                    method: 'POST', body: formData, dataType: 'json'
-                  })
-                  .then(res => res.json())
-                  .then(json => {console.log(json);showResult(json);})
-                  .catch(err => console.log('Error: ', err))
-                }
-                function showResult(arr) {
-                  const uploadUL = document.querySelector(".uploadResult ul");
-                  let str = ""
-                  const url = /*[[@{/display}]]*/'url'
-                  for(let i=0;i<arr.length;i++){
-                    str += `<li data-name='${arr[i].fileName}' data-path='${arr[i].folderPath}'
-                    data-uuid='${arr[i].uuid}' data-file='${arr[i].imageURL}'><div>
-                    <button class="removeBtn" type="button">X</button>
-                    <img src="${url}?fileName=${arr[i].imageURL}">
-                    </div></li>`
-                  }
-                  uploadUL.innerHTML = str;
-                  const removeBtns = document.querySelectorAll(".removeBtn");
-                  for(let i=0;i<removeBtns.length;i++){
-                    removeBtns[i].onclick = function() {
-                      const removeUrl = /*[[@{/removeFile?fileName=}]]*/'removeUrl'
-                      const targetLi = this.closest('li')
-                      const fileName = targetLi.dataset.file;
-                      /*fetch(removeUrl+fileName, {
-                        method: 'POST', dataType: 'json', fileName: fileName
-                      })
-                      .then(response => response.json())
-                      .then(json => {
-                        console.log(json)
-                        if(json === true) targetLi.remove()
-                        document.querySelector("#custom-label").innerHTML = ''
-                        document.querySelector("#fileInput").value = '';
-                      })
-                      .catch(err => console.log("Error occurred: ", err))
-                      */
-                      axios({
-                        method: "POST",
-                        url: removeUrl+fileName,
-                      }).then(res => {
-                        if(res.data === true) targetLi.remove();
-                        document.querySelector("#custom-label").innerHTML = '';
-                        document.querySelector("#fileInput").value = '';
-                      }).catch(err => {
-                        console.log(err);
-                      });
-                    }
-                  }
-                }
-
-                btnSend = document.querySelector("#btnSend");
-                btnSend.onclick = function(e) {
-                  e.preventDefault();
-                  const title = document.getElementById("title")
-                  if(title.value == "") {title.focus();return false;}
-                  const content = document.getElementById("content")
-                  if(content.value == "") {content.focus();return false;}
-                  /*if(fileInput.files.length == 0) {
-                    document.querySelector("#custom-label").innerHTML =
-                      "파일을 선택하세요!"
-                    fileInput.focus(); return false;
-                  }*/
-                  let str = "";
-                  const liArr = document.querySelectorAll(".uploadResult ul li");
-                  for(let i=0;i<liArr.length;i++){
-                    str += `
-                      <input type="hidden" name="photosDTOList[${i}].imgName" value="${liArr[i].dataset.name}">
-                      <input type="hidden" name="photosDTOList[${i}].path" value="${liArr[i].dataset.path}">
-                      <input type="hidden" name="photosDTOList[${i}].uuid" value="${liArr[i].dataset.uuid}">
-                    `
-                  }
-                  document.querySelector(".box").innerHTML = str;
-                  document.querySelector("#frmSend").submit();
-                }
-            </script>
+      <form th:action="@{/movies/register}" th:method="post" id="frmSend">
+        <div class="box"></div>
+        <div class="detail-group">
+          <div class="detail-group-left">
+            <div class="uploadResult">
+              <ul></ul>
+            </div>
+          </div>
+          <div class="detail-group-right">
+            <input type="text" name="title" id="title" class="form-control" placeholder="영화 제목을 입력하세요">
+            <div>
+              <input type="text" name="director" id="director" class="form-control" placeholder="감독을 입력하세요">
+              <input type="text" name="actor" id="actor" class="form-control" placeholder="배우를 입력하세요">
+              <input type="text" name="genre" id="genre" class="form-control" placeholder="장르를 입력하세요">
+              <input type="text" name="releaseDate" id="releaseDate" class="form-control" placeholder="개봉일을 입력하세요">
+              <input type="text" name="screeningTime" id="screeningTime" class="form-control" placeholder="상영시간을 입력하세요">
+              <input type="text" name="audienceAge" id="audienceAge" class="form-control" placeholder="연령층을 입력하세요">
+            </div>
+            <input class="form-control" placeholder="줄거리를 입력하세요" name="content" id="content" style="height: 100px">
+            <label type="submit" id="btnSend" class="input-group-text justify-content-center align-items-center"
+                   for="fileInput">Submit</label>
+          </div>
         </div>
-    </th:block>
+        <div class="input-group mb-3" style="width:500px;">
+          <input type="file" id="fileInput" class="custom-file-input form-control files" multiple>
+          <label id="custom-label"></label>
+        </div>
+      </form>
+
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <script th:inline="javascript">
+        function checkExtension(fileName, fileSize) {
+          maxSize = 1024 * 1024 * 10;
+          if (fileSize >= maxSize) {
+            alert("파일사이즈 초과");
+            return false;
+          }
+          const regex = new RegExp("(.*?)\\.(jpg|jpeg|png|gif|bmp|pdf)$", 'i');
+          if (!regex.test(fileName)) {
+            alert("해당파일 업로드 금지!");
+            return false;
+          }
+          return true;
+        }
+
+        const fileInput = document.querySelector("#fileInput");
+        const detailGroupLeft = document.querySelector(".detail-group-left");
+
+        fileInput.onchange = function () {
+          let formData = new FormData();
+          const fileName = fileInput.value.split("\\").pop();
+          let label = document.querySelector("#custom-label");
+          label.innerHTML = (fileInput.files.length - 1) == 0 ? "" : `${fileName} 외 ${fileInput.files.length - 1}개`;
+
+          if (fileInput.files.length === 0) {
+            detailGroupLeft.style.display = 'none';
+          } else {
+            detailGroupLeft.style.display = 'block';
+          }
+
+          let appended = false;
+          for (let i = 0; i < fileInput.files.length; i++) {
+            if (!checkExtension(fileInput.files[i].name, fileInput.files[i].size)) {
+              label.innerHTML = '';
+              fileInput.value = '';
+              appended = false;
+              break;
+            }
+            formData.append("uploadFiles", fileInput.files[i]);
+            appended = true;
+          }
+          if (!appended) return;
+
+          const url = /*[[@{/uploadAjax}]]*/ 'url';
+          fetch(url, {
+            method: 'POST',
+            body: formData,
+            dataType: 'json'
+          })
+            .then(res => res.json())
+            .then(json => {
+            console.log(json);
+            showResult(json);
+          })
+            .catch(err => console.log('Error: ', err));
+        }
+
+        function showResult(arr) {
+          const uploadUL = document.querySelector(".uploadResult ul");
+          let str = "";
+          const url = /*[[@{/display}]]*/ 'url';
+          for (let i = 0; i < arr.length; i++) {
+            // 콘솔에 uuid 출력
+            console.log(`Uploaded UUID: ${arr[i].uuid}`);
+
+            str += `<li data-name='${arr[i].fileName}' data-path='${arr[i].folderPath}'
+      data-uuid='${arr[i].uuid}' data-file='${arr[i].imageURL}'>
+      <div style="display: flex; align-items: center;">
+        <button class="removeBtn" type="button" style="margin-right: 10px;">X</button>
+        <img src="${url}?fileName=${arr[i].imageURL}">
+      </div>
+    </li>`;
+          }
+          uploadUL.innerHTML = str;
+          if (uploadUL.childElementCount === 0) {
+            detailGroupLeft.style.display = 'none';
+          } else {
+            detailGroupLeft.style.display = 'block';
+          }
+
+          const removeBtns = document.querySelectorAll(".removeBtn");
+          for (let i = 0; i < removeBtns.length; i++) {
+            removeBtns[i].onclick = function () {
+              const removeUrl = /*[[@{/removeFile}]]*/ 'removeUrl';
+              const targetLi = this.closest('li');
+              const fileName = targetLi.dataset.file;
+
+              const formData = new FormData();
+              formData.append("fileName", fileName);
+
+              axios.post(removeUrl, formData)
+                .then(res => {
+                if (res.data === true) {
+                  targetLi.remove();
+                  document.querySelector("#custom-label").innerHTML = '';
+                  document.querySelector("#fileInput").value = '';
+
+                  if (uploadUL.childElementCount === 0) {
+                    detailGroupLeft.style.display = 'none';
+                  }
+                }
+              })
+                .catch(err => console.log("Error occurred: ", err));
+            };
+          }
+        }
+
+        btnSend = document.querySelector("#btnSend");
+        btnSend.onclick = function(e) {
+          e.preventDefault();
+          const title = document.getElementById("title");
+          if (title.value == "") { title.focus(); return false; }
+          const content = document.getElementById("content");
+          if (content.value == "") { content.focus(); return false; }
+
+          let str = "";
+          const liArr = document.querySelectorAll(".uploadResult ul li");
+          for (let i = 0; i < liArr.length; i++) {
+            str += `
+              <input type="hidden" name="photosDTOList[${i}].imgName" value="${liArr[i].dataset.name}">
+              <input type="hidden" name="photosDTOList[${i}].path" value="${liArr[i].dataset.path}">
+              <input type="hidden" name="photosDTOList[${i}].uuid" value="${liArr[i].dataset.uuid}">
+            `;
+          }
+          document.querySelector(".box").innerHTML = str;
+          document.querySelector("#frmSend").submit();
+        }
+      </script>
+    </div>
+  </th:block>
 </th:block>
 </html>

@@ -15,7 +15,7 @@
     <div class="m-5">
       <h1 class="mt-4 text-primary fw-bold fs-2">영화 수정 페이지</h1>
       <form th:action="@{/movies/modify}" th:method="post" id="frmSend">
-        <div class="form-group">
+        <div class="form-group"  style="display: none;">
           <label class=" fw-bold fs-4">영화 번호</label>
           <input type="text" th:value="${moviesDTO.mno}" name="mno" class="form-control" readonly>
         </div>
@@ -28,35 +28,35 @@
           <input type="text" name="director" th:value="${moviesDTO.director}" class="form-control">
         </div>
         <div class="form-group">
-          <label for="actor" class="mt-4 fw-bold fs-4">영화 배우</label>
-          <input class="form-control" th:value="${moviesDTO.actor}" name="actor" id="actor" style="height: 100px">
+          <label for="actor" class="fw-bold fs-4">영화 배우</label>
+          <input class="form-control" th:value="${moviesDTO.actor}" name="actor" id="actor">
         </div>
         <div class="form-group">
-          <label for="content" class="mt-4 fw-bold fs-4">영화 줄거리</label>
+          <label for="content" class="fw-bold fs-4">영화 줄거리</label>
           <input class="form-control" th:value="${moviesDTO.content}" name="content" id="content" style="height: 100px">
         </div>
         <div class="form-group">
-          <label for="releaseDate" class="mt-4 fw-bold fs-4">영화 개봉일</label>
-          <input class="form-control" th:value="${moviesDTO.releaseDate}" name="releaseDate" id="releaseDate" style="height: 100px">
+          <label for="releaseDate" class=" fw-bold fs-4">영화 개봉일</label>
+          <input class="form-control" th:value="${moviesDTO.releaseDate}" name="releaseDate" id="releaseDate">
         </div>
         <div class="form-group">
-          <label for="screeningTime" class="mt-4 fw-bold fs-4">영화 상영시간</label>
-          <input class="form-control" th:value="${moviesDTO.screeningTime}" name="screeningTime" id="screeningTime" style="height: 100px">
+          <label for="screeningTime" class=" fw-bold fs-4">영화 상영시간</label>
+          <input class="form-control" th:value="${moviesDTO.screeningTime}" name="screeningTime" id="screeningTime">
         </div>
         <div class="form-group">
-          <label for="audienceAge" class="mt-4 fw-bold fs-4">영화 관람층</label>
-          <input class="form-control" th:value="${moviesDTO.audienceAge}" name="audienceAge" id="audienceAge" style="height: 100px">
+          <label for="audienceAge" class=" fw-bold fs-4">영화 관람층</label>
+          <input class="form-control" th:value="${moviesDTO.audienceAge}" name="audienceAge" id="audienceAge">
         </div>
-        <div style="margin-bottom: 30px;">
+        <div style="margin-bottom: 30px; display:none;">
           <label class=" fw-bold fs-4">리뷰 개수</label>
           <input type="text" name="reviewsCnt" class="form-control" readonly th:value="${moviesDTO.reviewsCnt}">
         </div>
-        <div class="form-group">
+        <div class="form-group "  style="display: none;" >
           <label class=" fw-bold fs-4">등록일</label>
           <input type="text" class="form-control"
                  th:value="${#temporals.format(moviesDTO.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
         </div>
-        <div class="form-group">
+        <div class="form-group"   style="display: none;">
           <label class=" fw-bold fs-4">마지막 수정일</label>
           <input type="text" class="form-control"
                  th:value="${#temporals.format(moviesDTO.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
