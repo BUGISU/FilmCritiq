@@ -1,22 +1,37 @@
-# 📘 기술 설계서 - 영화 리뷰 및 사진 관리 시스템
+# 🎬 FilmCritiq - 영화 리뷰 및 사진 관리 시스템
+
+[👉 GitHub Repository](https://github.com/JISUSAMA/FilmCritiq) 
 
 ---
 
-## 1. 🧾 프로젝트 개요
+## 1. 📖 프로젝트 개요
 
-* **프로젝트 명**: 영화 리뷰 및 사진 관리 시스템
-* **개발 언어**: Java 17
-* **프레임워크**: Spring Boot
-* **주요 목적**:
+* **프로젝트 명**: FilmCritiq (영화 리뷰 및 사진 관리 시스템)
+* **개발 기간**: 2024.08.16 ~ 2024.09.01
+* **개발 환경**: IntelliJ, Spring Boot, Spring Security, Maven, MySQL, MariaDB
+* **개발 인원**: 1명 (개인 프로젝트)
 
-  * 영화 정보 CRUD
-  * 리뷰 작성 및 관리
-  * 이미지 업로드 처리
-  * 회원 인증 및 권한 관리
+**주요 목적**
+
+* 영화 정보 CRUD
+* 리뷰 작성 및 관리
+* 이미지 업로드 처리
+* 회원 인증 및 권한 관리
 
 ---
 
-## 2. 🔧 시스템 아키텍처
+## 2. 🔧 기술 스택
+
+* **Language**: Java 17
+* **Framework**: Spring Boot, Spring Security
+* **Database**: MySQL, MariaDB
+* **Build Tool**: Maven
+* **Front**: Thymeleaf, Bootstrap (반응형 UI)
+* **Etc**: JPA, Lombok, DTO/Entity 매핑
+
+---
+
+## 3. 🏛 시스템 아키텍처
 
 ```
 [Client] ──▶ [Controller] ──▶ [Service] ──▶ [Repository] ──▶ [Database]
@@ -27,50 +42,29 @@
 
 ---
 
-## 3. 📌 주요 기능 및 API 명세
+## 4. 📌 주요 기능 및 API
 
-### 3.1 영화 관리
+### 4.1 영화 관리
 
-| 기능    | 메서드    | 경로                 | 설명          |
-| ----- | ------ | ------------------ | ----------- |
-| 영화 등록 | POST   | `/api/movies`      | 영화 데이터 등록   |
-| 영화 목록 | GET    | `/api/movies`      | 영화 목록 + 페이징 |
-| 영화 상세 | GET    | `/api/movies/{id}` | 특정 영화 조회    |
-| 영화 수정 | PUT    | `/api/movies/{id}` | 영화 정보 업데이트  |
-| 영화 삭제 | DELETE | `/api/movies/{id}` | 영화 삭제       |
+* 영화 등록, 목록 조회(페이징), 상세 보기, 수정, 삭제
 
----
+### 4.2 리뷰 관리
 
-### 3.2 리뷰 관리
+* 리뷰 등록, 수정, 삭제 (본인 리뷰만 가능)
 
-| 기능    | 메서드    | 경로                         | 설명           |
-| ----- | ------ | -------------------------- | ------------ |
-| 리뷰 등록 | POST   | `/api/reviews`             | 영화 리뷰 등록     |
-| 리뷰 목록 | GET    | `/api/reviews/movie/{mno}` | 특정 영화의 리뷰 조회 |
-| 리뷰 삭제 | DELETE | `/api/reviews/{id}`        | 리뷰 삭제        |
+### 4.3 이미지 업로드
+
+* 단일 및 다중 이미지 업로드 가능
+* 이미지 없을 경우 기본 이미지 표시
+
+### 4.4 인증 및 회원 관리
+
+* Spring Security 기반 권한 관리 (`USER`, `MANAGER`, `ADMIN`)
+* 로그인 상태에 따라 기능 접근 제어
 
 ---
 
-### 3.3 사진 업로드
-
-| 기능     | 메서드  | 경로                | 설명               |
-| ------ | ---- | ----------------- | ---------------- |
-| 사진 업로드 | POST | `/api/upload`     | 이미지 파일 업로드 처리    |
-| 응답 DTO | -    | `UploadResultDTO` | UUID, 경로 등 정보 포함 |
-
----
-
-### 3.4 인증 및 회원 관리
-
-* `ClubMember.java`: 사용자 계정 정보
-* `ClubMemberRole.java`: 사용자 권한 Enum (`USER`, `MANAGER`, `ADMIN`)
-* `AuthController.java`: 로그인, 사용자 권한 설정
-
----
-
-## 4. 🗃️ 데이터 모델 (Entity)
-
-### 4.1 Movies
+## 5. 🗂 데이터 모델
 
 ```java
 class Movies {
@@ -80,13 +74,7 @@ class Movies {
   List<Photos> photos;
   List<Reviews> reviews;
 }
-```
 
----
-
-### 4.2 Reviews
-
-```java
 class Reviews {
   Long reviewnum;
   String text;
@@ -94,13 +82,7 @@ class Reviews {
   ClubMember member;
   Movies movie;
 }
-```
 
----
-
-### 4.3 Photos
-
-```java
 class Photos {
   String uuid;
   String fileName;
@@ -111,62 +93,51 @@ class Photos {
 
 ---
 
-## 5. 🧩 DTO 및 응답 구조
+## 6. 📸 서비스 시연 화면
 
-* `MoviesDTO`, `ReviewsDTO`, `PhotosDTO` 등은 Entity의 정보를 클라이언트에 전달하기 위한 전용 객체입니다.
-* `PageResultDTO<DTO, Entity>`: 페이징 응답 템플릿
-* `UploadResultDTO`: 파일 업로드 후 UUID, 파일명, 경로 반환
+| 로그인 페이지                     | 로그인 유효성 검사                   |
+| --------------------------- | ---------------------------- |
+| ![로그인](Screenshots/그림1.png) | ![유효성](Screenshots/그림11.png) |
 
----
+| 영화 목록                      | 영화 등록                      | 다중 이미지 등록                     |
+| -------------------------- | -------------------------- | ----------------------------- |
+| ![목록](Screenshots/그림2.png) | ![등록](Screenshots/그림3.png) | ![멀티등록](Screenshots/그림12.png) |
 
-## 6. 🧑‍💻 인증 및 권한
+| 영화 상세 페이지                  | 대체 이미지                     | 이미지 추가/삭제                   |
+| -------------------------- | -------------------------- | --------------------------- |
+| ![상세](Screenshots/그림4.png) | ![대체](Screenshots/그림5.png) | ![이미지](Screenshots/그림6.png) |
 
-| 권한        | 설명            |
-| --------- | ------------- |
-| `USER`    | 기본 리뷰 작성 가능   |
-| `MANAGER` | 리뷰 및 영화 수정 가능 |
-| `ADMIN`   | 전체 관리자 권한     |
+| 리뷰 등록                         | 리뷰 수정                         | 리뷰 삭제                         |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| ![리뷰추가](Screenshots/그림14.png) | ![리뷰수정](Screenshots/그림15.png) | ![리뷰삭제](Screenshots/그림13.png) |
 
-`ClubMemberRole` Enum 기반으로 `@PreAuthorize` 또는 `SecurityConfig`에서 접근 제어 구현 가능
+| 리뷰 전체 관리                        | 리뷰 권한 제어                       | 리뷰 DB 반영                   |
+| ------------------------------- | ------------------------------ | -------------------------- |
+| ![리뷰수정삭제](Screenshots/그림17.png) | ![자신의리뷰](Screenshots/그림18.png) | ![DB](Screenshots/그림7.png) |
 
----
+| 영화 수정                      | 게시글 삭제                        | 포스터 상세보기                     |
+| -------------------------- | ----------------------------- | ---------------------------- |
+| ![수정](Screenshots/그림8.png) | ![게시글삭제](Screenshots/그림9.png) | ![포스터](Screenshots/그림10.png) |
 
-## 7. 📂 파일 업로드 처리
-
-* 저장 구조: `/연도/월/일/UUID_파일명`
-* `UploadController.java`에서 MultipartFile 처리 및 `UploadResultDTO` 반환
-* 이미지 여부 판별: `img` boolean 필드
-
----
-
-## 8. 🧱 공통 엔티티
-
-### BasicEntity
-
-```java
-@MappedSuperclass
-abstract class BasicEntity {
-  LocalDateTime regDate;
-  LocalDateTime modDate;
-}
-```
-
-모든 엔티티의 생성일/수정일 자동 관리
+| 영화 상세 + 리뷰 리스트                 | 리뷰 DB 관리                      |
+| ------------------------------ | ----------------------------- |
+| ![상세+리뷰](Screenshots/그림16.png) | ![DB리뷰](Screenshots/그림12.png) |
 
 ---
 
-## 9. 🔮 확장 계획
+## 7. 🔮 확장 계획
 
-| 항목         | 설명                              |
-| ---------- | ------------------------------- |
-| JWT 인증 도입  | Spring Security + JWT로 인증 개선 예정 |
-| Swagger 적용 | API 문서 자동화                      |
-| 추천 기능      | 영화 및 리뷰 추천 알고리즘 추가 예정           |
+| 항목         | 설명                             |
+| ---------- | ------------------------------ |
+| JWT 인증 도입  | Spring Security + JWT 기반 인증 개선 |
+| Swagger 적용 | API 문서 자동화                     |
+| 추천 기능      | 영화 추천 및 리뷰 기반 알고리즘 추가          |
 
 ---
 
-## 10. 📌 기타 참고
+## 8. 🎯 핵심 성과
 
-* `SampleController`는 테스트용 또는 개발 초기 확인용 컨트롤러입니다.
-* DTO ↔ Entity 매핑은 명확한 분리 원칙을 따릅니다.
-
+* **Spring Boot + Security + 이미지 업로드**까지 단일 프로젝트 내 구현
+* DTO/Entity 분리 및 `PageResultDTO` 적용으로 **페이징 처리 효율화**
+* 권한별 접근 제어를 통한 **Admin / User 기능 차별화**
+* 다중 이미지 등록 및 대체 이미지 기능으로 **사용자 경험 개선**
